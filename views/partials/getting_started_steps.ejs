@@ -1,0 +1,25 @@
+<%
+	var stageStatus=function(stage){
+		var stages=['personal_info','verify_otp','business_info','verify_submit'];
+		// var current_stage = filing.stage;
+		var active_stage_pos = stages.indexOf(current_stage);
+		var stage_pos=stages.indexOf(stage);
+		if(stage_pos==-1) // invalid case
+			return 'disabled';
+		else if(stage_pos<active_stage_pos)
+			return 'completed';
+		else if(stage_pos==active_stage_pos)
+			return 'active';
+		else if(stage_pos>active_stage_pos)
+			return 'disabled';
+	}
+
+%>
+<h1>Getting started</h1>
+<div class="ui small breadcrumb">
+    <div class="<%-current_stage=='personal_info'||current_stage=='verify_otp'?'active':''%> section" href='/gstin/' >Your details</div>
+    <i class="right angle icon divider"></i>
+    <div class="<%-current_stage=='business_info'||current_stage=='verify_submit'?'active':''%> section" href='/gstin//filings?type=gstr1'>Business Details (Optional)</div>
+</div>
+
+

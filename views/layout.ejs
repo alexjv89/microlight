@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:fb="http://ogp.me/ns/fb#">
+  <head>
+    <title><%=typeof title == 'undefined' ? 'Starter Project' : title%></title>
+    <%if(!req.user){%>
+      <%- include ('./partials/google_tag_manager') %>
+    <%}%>
+    <meta name="description" content="<%=typeof description == 'undefined' ? 'Starter Project' : description%>"/>
+    <meta property="og:title" content="<%=typeof title == 'undefined' ? 'Starter Project' : title%>" />
+    <meta property="og:description" content="<%=typeof description == 'undefined' ? 'Starter Project' : description%>" />
+
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:site" content="@highlyreco"/>
+    <meta name="twitter:title" content="<%=typeof title == 'undefined' ? 'Starter Project' : title%>"/>
+    <meta name="twitter:description" content="<%=typeof description == 'undefined' ? 'Starter Project' : description%>"/>
+    
+    <%if(typeof image !== 'undefined'){%>
+      <meta property="og:image" content="<%- image%>"/>
+      <meta name="twitter:image" content="<%- image%>"/>
+    <%}%>
+    
+    <meta name="robots" content="noindex, nofollow">
+    <meta qqname="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-title" content="Starter Project">
+    <% if (req.headers['user-agent'].includes('Android')) { %>
+      <meta name="apple-mobile-web-app-capable" content="yes">
+    <% } %>
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <meta name="application-name" content="Starter Project">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- <meta name="twitter:creator" content="@nivi"> -->
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <!--  
+        Stylesheets and Preprocessors
+        ==============================
+
+        You can always bring in CSS files manually with `<link>` tags, or asynchronously
+        using a solution like AMD (RequireJS).  Or, if you like, you can take advantage 
+        of Sails' conventional asset pipeline (boilerplate Gruntfile).
+
+        By default, stylesheets from your `assets/styles` folder are included
+        here automatically (between STYLES and STYLES END). Both CSS (.css) and LESS (.less)
+        are supported. In production, your styles will be minified and concatenated into
+        a single file.
+        
+        To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
+        For example, here are a few things you could do:
+            
+            + Change the order of your CSS files
+            + Import stylesheets from other directories
+            + Use a different or additional preprocessor, like SASS, SCSS or Stylus
+    -->
+    <!-- <link rel="stylesheet" href="/semantic/semantic.min.css"> -->
+    <link rel="stylesheet" href="/dependencies/sematic/semantic.min.css">
+    <!--STYLES-->
+    <link rel="stylesheet" href="/dependencies/sematic/semantic.min.css">
+    <link rel="stylesheet" href="/styles/importer.css">
+    <!--STYLES END-->
+    <style>
+      .hidden {
+        display: none !important;
+      }
+      html{
+        overflow-y: scroll;
+        overflow-x: hidden;
+      }
+      .mobile-slider {
+        margin-bottom: 14px;
+      }
+      @media only screen and (max-width: 700px) {
+        .mobile-slider {
+          min-width: 100%;
+          display: flex;
+          overflow-x: auto;
+        }
+        .mobile-slider::-webkit-scrollbar {
+          display: none;
+        }
+      }
+      .first.segment {
+        margin-top: 0px;
+      }
+    </style>
+  </head>
+
+  <body >
+    <!-- Google Tag Manager (noscript) -->
+    <!-- 
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-547P6N"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+     -->
+    <!-- End Google Tag Manager (noscript) -->
+
+
+    <!--
+        Client-side Templates
+        ========================
+
+        HTML templates are important prerequisites of modern, rich client applications.
+        To work their magic, frameworks like Backbone, Angular, Ember, and Knockout require
+        that you load these templates client-side.
+
+        By default, your Gruntfile is configured to automatically load and precompile
+        client-side JST templates in your `assets/templates` folder, then
+        include them here automatically (between TEMPLATES and TEMPLATES END).
+        
+        To customize this behavior to fit your needs, just edit `tasks/pipeline.js`.
+        For example, here are a few things you could do:
+
+            + Import templates from other directories
+            + Use a different template engine (handlebars, jade, dust, etc.)
+            + Internationalize your client-side templates using a server-side
+              stringfile before they're served.
+    -->
+
+    <!--TEMPLATES-->
+    
+    <!--TEMPLATES END-->
+
+
+    <!--
+
+      Client-side Javascript
+      ========================
+
+      You can always bring in JS files manually with `script` tags, or asynchronously
+      on the client using a solution like AMD (RequireJS).  Or, if you like, you can 
+      take advantage of Sails' conventional asset pipeline (boilerplate Gruntfile).
+
+      By default, files in your `assets/js` folder are included here
+      automatically (between SCRIPTS and SCRIPTS END).  Both JavaScript (.js) and
+      CoffeeScript (.coffee) are supported. In production, your scripts will be minified
+      and concatenated into a single file.
+      
+      To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
+      For example, here are a few things you could do:
+          
+          + Change the order of your scripts
+          + Import scripts from other directories
+          + Use a different preprocessor, like TypeScript
+
+    -->
+
+    <script src="/dependencies/sails.io.js"></script>
+    <script src="/dependencies/jquery.min.js"></script>
+    <script src="/dependencies/sematic/semantic.min.js"></script>
+    <script src="/dependencies/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
+
+<script>
+var updateUrlParameter =  function (uri, key, value) {
+    // remove the hash part before operating on the uri
+    var i = uri.indexOf('#');
+    var hash = i === -1 ? ''  : uri.substr(i);
+       uri = i === -1 ? uri : uri.substr(0, i);
+  
+    var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+    if (uri.match(re)) {
+      uri = uri.replace(re, '$1' + key + "=" + value + '$2');
+    } else {
+      uri = uri + separator + key + "=" + value;
+    }
+    return uri + hash;  // finally append the hash as well
+  }
+</script>
+    <!-- include partials/quora_style_login  -->
+
+
+    <!-- incase I want to implement left side bar -->
+    <!-- <style type="text/css">
+      .sidebar.visible + .pusher {
+        width: calc(100% - 260px);
+      }
+    </style>
+
+    <div class="ui vertical inverted left visible sidebar menu" style="visibility: ;"> 
+      <div class='header item'>
+        asdfsdf
+      </div>
+      <a class="item">
+        <i class="home icon"></i>
+        Home
+      </a>
+    </div> -->
+
+
+    <!-- Main content starts here -->
+    <div class="ui container">
+      
+      <!-- Show some status to the user -->
+      <div id="status_message"></div>
+
+      <!-- Top menu -->
+    </div>
+    <%if(req.user && req.org){%>
+    <!-- <div class="ui left demo vertical inverted sidebar labeled icon menu"> -->
+    <%}%>
+    <%
+      var embed=false;
+      if(req.url.indexOf('/embed/')>-1)
+        embed=true;
+    %>
+    <div class="pusher">
+      <%if(!embed){%>
+        <%- include("partials/navbar")%>
+      <%}%>
+      <%- body %>
+      <%if(!embed){%>
+        <%- include("partials/footer") %>
+      <%}%>
+    </div>
+  </body>
+</html>

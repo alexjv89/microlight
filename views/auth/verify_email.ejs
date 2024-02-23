@@ -1,0 +1,89 @@
+<%if(req.query.token){%>
+    <div class="ui container">
+        <div class="ui one column centered grid">
+            <div class="sixteen wide mobile six wide computer column" style="margin-top:100px">
+                <h2>Verify email</h2>
+                
+                <% if(error){ %>
+                    <% if(error.name=='TokenExpiredError'){%>
+                    <div class="ui error message">
+                        <div class="content">
+                            <div class="header">
+                                Validation url has expired
+                            </div>
+                            <p>The url is only valid for 10 mins. Please try to verify your email again by requesting for a fresh verification email.</p>
+                            <a class='ui button' href="/verify_email">Try again</a>
+                        </div>
+                    </div>
+                    <%}else if(error.name=='JsonWebTokenError'){%>
+                    <div class="ui error message">
+                        <div class="content">
+                            <div class="header">
+                                Verify url is invalid
+                            </div>
+                            <p>The verify url that you have is corrupted. Maybe you did not copy the entire url. </p>
+                            <a class='ui button' href="/verify_email">Try again</a>
+                        </div>
+                    </div>
+                    <%}else{%>
+                    <div class="ui error message">
+                        <div class="content">
+                            <div class="header">
+                                <%=error.name%>
+                            </div>
+                            <p><%=error.message%></p>
+                        </div>
+                    </div>
+                    <%}%>
+                <% }else if(message){ %>
+                <div class="ui positive message">
+                    <%=message%>
+                    <br>
+                    <br>
+                    <a class='ui teal button' href='/'>Access Cashflowy</a>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <%}else{%>
+    
+    <div class="ui container">
+        <div class="ui one column centered grid">
+            <div class="sixteen wide mobile six wide computer column" style="margin-top:80px">
+                
+                <!-- <h2>Verify email</h2> -->
+                <h2>Verify your email address.</h2>
+                <br>
+                <div class="ui positive message">
+                    <h3>Thank you for signing up.</h3>
+                    Your email address - <%=req.user.email%> needs to be verified. <br/><br/>
+                    <i class="check circle icon" style="visibility: visible;"></i>A verification link has been sent to your email account. Click on that link to verify your email address.  
+                </div>
+                <h5 style="color:grey">Didn't receive an email?</h5>
+                <form class="ui form" method="POST">
+                
+                    <button class="ui green <%= message?'disabled':''%> button" type="submit">Resend verification email</button>
+                    
+                </form>
+                <% if(error){ %>
+                    <div class="ui error message">
+                        <%=error%>
+                    </div>
+                    <% }
+                    else if(message){ %>
+                    <div class="ui positive message">
+                        <%=message%>  
+                    </div>
+                    <% } %>
+            </div>
+        </div>
+    </div>
+    <%}%>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.button').click(function(e){
+                $(this).addClass('loading');
+            });
+        });
+    </script>

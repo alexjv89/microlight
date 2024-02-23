@@ -1,0 +1,21 @@
+<div class='ui container'>
+	<h1 style='margin-top:10px;'>
+		Select Org
+		<a href="/org/create" class='ui basic teal right floated button'>Create new org</a>
+	</h1>
+	<div class="ui fluid cards">
+		<% memberships.forEach(function(m){%>
+			<a class="card" href='/org/<%=m.org.id%>/quotes'>
+				<div class="content">
+					<div class="header"><%=m.org.name%></div>
+					<!-- <div class="meta">Friend</div> -->
+					<div class="description">
+						<%=m.org.description%>
+					</div>
+				</div>
+			</a>
+		<%})%>
+	</div>
+	
+	<br>
+</div>

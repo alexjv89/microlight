@@ -1,0 +1,174 @@
+<div class='ui container'>
+	<h1>Notifications</h1>
+	<div class='ui grid'>
+		<div class='four wide column'>
+			<div class='ui container'>
+				<div class="ui vertical large accordion fluid menu">
+					<div class="item">
+						<a class="active title">
+							<i class="dropdown icon"></i>
+							Filter 
+							<%if(req.query.sites || req.query.devices){%>
+								<div class="ui teal horizontal label">Applied</div>
+							<%}%>
+						</a>
+						<div class="active content">
+							<form class="ui form" action='' method="GET">
+								<div class="field">
+									<label>Read status:</label>
+									<div class="ui fluid filter_txn scrolling dropdown basic button">
+										<input type="hidden" name="read_status" value='<%=req.query.read_status?req.query.read_status:'unread'%>'>
+										<i class="dropdown icon"></i>
+										<div class="text">All</div>
+										<div class="menu transition hidden" tabindex="-1">
+											<div class="item" data-value='all'>All</div>
+											<div class="item" data-value='unread'>Unread</div>
+											<div class="item" data-value='read'>Read</div>
+											
+										</div>
+									</div>
+								</div>
+								
+								<!-- <div class="two fields">
+									<div class="field">
+										<label>Start date</label>
+										<div class="ui calendar" id="rangestart">
+											<div class="ui input left icon">
+												<i class="calendar icon"></i>
+												<input type="text" name="start_date" placeholder="Start" value="<%=req.query.start_date%>" autocomplete="off">
+											</div>
+										</div>
+									</div>
+									<div class="field">
+										<label>End date</label>
+										<div class="ui calendar" id="rangeend">
+											<div class="ui input left icon">
+												<i class="calendar icon"></i>
+												<input type="text" name="end_date" placeholder="End" value="<%=req.query.end_date%>" autocomplete="off">
+											</div>
+										</div>
+									</div>
+								</div> -->
+								
+								<div class="ui buttons">
+									<div class='ui orange left aligned button' id='submit_form'>Apply filter</div>
+									<div class='ui blue right aligned button' id='reset_form'>Reset</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class='twelve wide column'>
+			<table class="ui celled unstackable collapsing table" style="display: block;overflow-x:scroll;">
+			    <thead>
+			        <tr class='center aligned'>
+			            <th>Date</th>
+			            <th>Notication</th>
+			            <th>Type</th>
+			            <th></th>
+			        </tr>
+			    </thead>
+			    <tbody>
+			    	<%notifications.forEach(function(n){%>
+			        <tr data-id='<%=n.id%>' class='notification'>
+			            <td class='single line'><%= n.createdAt.toISOString().substring(0,10)%></td>
+			            <td><a href="/notification/<%=n.id%>"><%=n.body%></a></td>
+			            <td><%=n.type%></td>
+			            <td>
+			            	<%if(!n.read_status){%>
+			            	<button class='ui basic mark_as_read button'>Mark as read</button>
+			            	<%}%>
+			            </td>
+			        </tr>
+			        <%})%>
+			    </tbody>
+			</table>
+			<%- include('partials/pagination_menu',{page_menu:page_menu})%>
+		</div>
+	</div>
+
+
+	
+
+	
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.mark_as_read').click(function(){
+			// setting the variable as `this` is not avaible in the callback of the `post` request. 
+			var button = this;
+			$(button).addClass('disabled loading');
+
+			// Get data from DOM
+			var n_id=$(this).parents('tr').attr('data-id');
+			console.log(n_id);
+			var data = {};
+			
+			// Make post request
+			$.post(`/notification/${n_id}/mark_as_read`,data , function(result,status){
+				console.log('result = '+result);
+				console.log('status = '+status);// this runs only on sucess
+				if(status=='success'){
+					$(button).removeClass('loading');
+					showToast({
+						class:'success',
+						title: 'Marked as read',
+						message: 'This notification is marked as read',
+					})
+				}
+			}).fail(function(result,status) {
+				console.log('result = '+JSON.stringify(result,2,2));
+				console.log('status = '+status);// this runs only on sucess
+				showToast({
+					class:'error',
+					title: result.status+' error',
+					message: result.statusText,
+				})
+			});
+		})
+	})
+</script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.ui.accordion').accordion();
+		$('.dropdown').dropdown();
+		$('#submit_form').click(function(){
+			console.log('clicked on form submit');
+			$("form").submit();
+		});
+		$('#reset_form').click(function(){
+			window.location = window.location.pathname;
+			$(this).addClass('loading');
+		});
+		$('#rangestart').calendar({
+			type: 'date',
+			endCalendar: $('#rangeend'),
+			formatter: {
+				date: function (date, settings) {
+					if (!date) return '';
+					var day = date.getDate();
+					var month = date.getMonth() + 1;
+					var year = date.getFullYear();
+					return year + '/' + month + '/' + day;
+				}
+			}
+		});
+		$('#rangeend').calendar({
+			type: 'date',
+			startCalendar: $('#rangestart'),
+			formatter: {
+				date: function (date, settings) {
+					if (!date) return '';
+					var day = date.getDate();
+					var month = date.getMonth() + 1;
+					var year = date.getFullYear();
+					return year + '/' + month + '/' + day;
+				}
+			}
+		});
+	})
+</script>

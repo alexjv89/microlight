@@ -1,0 +1,34 @@
+<br>
+<div class='ui container'>
+	<h3>Users : <a href="/admin/user/create" class='ui basic button'>Create new User</a></h3>
+
+	<table class="ui celled unstackable collapsing table" style="display: block;overflow-x:scroll;">
+		<thead>
+			<tr>
+				<th>Created On</th>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Membership</th>
+			</tr>
+		</thead>
+		<tbody>
+			<%users.forEach(function(user){%>
+				<tr data-id='<%=user.id%>'>
+					<td class='single line'><%=user.createdAt.toISOString().substring(0,10)%></td>
+					<td><a href="/user/<%=user.id%>"><%=user.name%></a></td>
+					<td><%=user.email%></td>
+					<td>
+						<% user.memberships.forEach(function(m){%>
+							<%=m.type%> at <a href="/org/<%=m.org.id%>/settings/members"><%=m.org.name%></a><br>
+						<%})%>
+					</td>
+				</tr>
+			<%})%>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('a[href="/admin"]').addClass('active');
+	})
+</script>

@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "modules": {}
+  },
+  "_generatedWith": {
+    "sails": "1.5.9",
+    "sails-generate": "2.0.9"
+  }
+}

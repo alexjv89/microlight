@@ -1,0 +1,182 @@
+<div class='ui container'>
+	<div class='ui grid'>
+		<div class='sixteen wide column'>
+			<div class='ui segment'>
+				<h2>Admin sitemap</h2>
+				<div class='ui bulleted list'>
+					<div class='item'>
+						<div>Bull</div>
+						<div class='ui list'>
+							<a href="/bull/cashflowy" class="item">Cashflowy queue</a>
+							<a href="/admin/jobs/restart" class="item">Restart repeat jobs</a>
+							<!-- <a href="/bull/crawler" class="item">Crawler queue</a> -->
+						</div>
+					</div>
+					<div class='item'>
+						<div>Orgs</div>
+						<div class='ui list'>
+							<a href="/admin/orgs" class="item">View all orgs</a>
+							<a href="/admin/org/create" class="item">Create Org</a>
+						</div>
+					</div>
+					<div class='item'>
+						<div>Users</div>
+						<div class="ui list">
+							<a href="/admin/users" class="item">View all users</a>
+							<a href="/admin/user/create" class="item">Create and invite user</a>
+						</div>
+					</div>
+					<div class='item'>
+						<div>Jobs templates</div>
+						<div class="ui list">
+							<a href="/admin/update_jobs" class="item">Update jobs</a>
+							<!-- <a href="/admin/system_checks/update" class="item">Update system checks</a> -->
+						</div>
+					</div>
+					<div class='item'>
+						<div>Report templates</div>
+						<div class="ui list">
+							<a href="/admin/report_defs" class="item">List report defs</a>
+							<!-- <a href="/admin/system_checks/update" class="item">Update system checks</a> -->
+						</div>
+					</div>
+					<div class='item'>
+						<div>Health check</div>
+						<div class="ui list">
+							<div class="item">
+								<button class="ui labeled mini button" id="rundeck_test">
+									<i class="play icon"></i>
+									<div class="header">
+										Test Rundeck
+									</div>
+								  </button>
+							</div>
+							<div class="item">
+							  <button class="ui labeled  mini button" id="db_test">
+								<i class="play icon"></i>
+								<div class="header">
+									Test Database
+								</div>
+							  </button>
+							</div>
+							<div class="item">
+							  <button class="ui labeled mini button disabled">
+								<i class="play icon"></i>
+								<div class="header">
+									Test Redis
+								</div>
+							  </button>
+							</div>
+							<!-- <a href="/admin/health_check/rundeck" class="item">Test Rundeck</a>
+							<a href="/admin/health_check/database" class="disabled item">Test Database</a>
+							<a href="/admin/health_check/redis" class="disabled item">Test Redis</a> -->
+							<!-- <a href="/admin/system_checks/update" class="item">Update system checks</a> -->
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function(){
+		$('#rundeck_test').click(rundeckConnectionTest)
+		$('#db_test').click(dbConnectionTest)
+	})
+</script>
+
+<script>
+	const rundeckToastMsg = {
+        "success":{
+            title: 'Rundeck Connection is Ok',
+            // message:
+            class: 'success'
+        },
+        "failed":{
+            title: 'Rundeck Connection Test Failed',
+            // message:,
+            class: 'red'
+        }
+    }
+
+	function rundeckConnectionTest(){
+			const rundeckTestBtn = $('#rundeck_test')
+
+			rundeckTestBtn.addClass('disabled')
+			const icon = rundeckTestBtn.children('i')
+			icon.removeClass('play checkmark green times red').addClass('loading spinner')
+			
+			$.ajax({
+				type: 'GET',
+				url: `<%=req.baseUrl%>/admin/health_check/rundeck`,
+				success: function(response) {
+					// Handle the success response, if needed
+					// console.log(response)
+					showToast(rundeckToastMsg[response?.status] || rundeckToastMsg.failed)
+					icon.removeClass('loading spinner disabled').addClass('checkmark green')
+				},
+				error: function(error) {
+					// Handle the error response, if needed
+					// console.error(error.responseText);
+					showToast(rundeckToastMsg["failed"]);
+					icon.removeClass('loading spinner disabled').addClass('times red')
+				},
+				complete: function() {
+					// Re-enable the button after a delay (1 seconds in this case)
+					setTimeout(function() {
+						rundeckTestBtn.removeClass('disabled')
+						res('done')
+					}, 1000);
+				}
+			})
+		}
+</script>
+
+<script>
+	const dbToastMsg = {
+        "success":{
+            title: 'Database Connection is Ok',
+            // message:
+            class: 'success'
+        },
+        "failed":{
+            title: 'Database Connection Test Failed',
+            // message:,
+            class: 'red'
+        }
+    }
+
+	function dbConnectionTest(){
+			const dbTestBtn = $('#db_test')
+
+			dbTestBtn.addClass('disabled')
+			const icon = dbTestBtn.children('i')
+			icon.removeClass('play checkmark green times red').addClass('loading spinner')
+			
+			$.ajax({
+				type: 'GET',
+				url: `<%=req.baseUrl%>/admin/health_check/database`,
+				success: function(response) {
+					// Handle the success response, if needed
+					// console.log(response)
+					showToast(dbToastMsg[response?.status] || dbToastMsg.failed)
+					icon.removeClass('loading spinner disabled').addClass('checkmark green')
+				},
+				error: function(error) {
+					// Handle the error response, if needed
+					// console.error(error.responseText);
+					showToast(dbToastMsg["failed"]);
+					icon.removeClass('loading spinner disabled').addClass('times red')
+				},
+				complete: function() {
+					// Re-enable the button after a delay (1 seconds in this case)
+					setTimeout(function() {
+						dbTestBtn.removeClass('disabled')
+						res('done')
+					}, 1000);
+				}
+			})
+		}
+</script>

@@ -1,0 +1,60 @@
+<script type="text/javascript">
+	var ctx = document.getElementById('<%=element%>');
+	var chart_options={
+		"type":"line",
+		"data":<%-JSON.stringify(data)%>,
+		// "data":data,
+		"options":{
+			responsive: true,
+			title: {
+				display: false,
+				text: 'Chart.js Line Chart'
+			},
+			<%if(typeof parsing!='undefined'){%>
+			parsing:<%-JSON.stringify(parsing)%>,
+			<%}%>
+			plugins:{
+				legend:{
+					display:false
+				},
+				tooltip: {
+					mode: 'nearest',
+					intersect: true,
+					callbacks:{
+						label: function(context) {
+							var label = context.dataset.label || '';
+							if (label) {
+								label += ': ';
+							}
+							if (context.parsed.y !== null) {
+								label += context.parsed.y;
+							}
+							return label;
+						},
+						labelPointStyle: function(context) {
+							return {
+								pointStyle: 'triangle',
+								rotation: 0
+							};
+						}
+					}
+				}
+			},
+			scales: {
+				x:{
+					type: 'time',
+					time: {
+						unit: 'month',
+						// tooltipFormat:'MMM Do, h:mm a',
+						tooltipFormat:'MMM YYYY',
+					},
+					// stacked: true
+				},
+				y:{
+					// stacked: true
+				},
+			}
+		}
+	};
+	new Chart(ctx,chart_options);
+</script>

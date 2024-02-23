@@ -1,0 +1,197 @@
+<div class='ui basic container segment'>
+	<div class="ui breadcrumb">
+		<a class="section" href='/org/<%=req.org.id%>'><%=req.org.name%></a>
+		<i class="right angle icon divider"></i>
+		<div class="section">Settings</div>
+		<i class="right angle icon divider"></i>
+		<div class="section">Members</div>
+	</div>
+	<h1 style='margin-top:0;'>
+		Org Settings
+	</h1>
+	<div class='ui grid'>
+		<div class='four wide column'>	
+			<% include partials/settings_menu %>
+		</div>
+		<div class='twelve wide column'>
+			<h3>Members of <%=req.org.name%></h3>
+			<table class="ui basic unstackable  table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Access</th>
+						<th>Delete</th>
+					</tr>
+				</thead>
+				<tbody>
+					<%members.forEach(function(m){%>
+						<tr data-tid='<%=m.id%>'>
+							<td class='single line'><%=m.user.name%></td>
+							<td class='single line'><%=m.user.email%></td>
+							<td><%=m.type%></td>
+							<td class='single line'><button class="ui basic red button revoke_access" data-member-id="<%=m.id%>">Delete</button>
+						</tr>
+					<%})%>
+				</tbody>
+			</table>
+			<div class='ui segment'>
+				<h4>Grant access to user</h4>
+				<%var gstin={};%>
+				<form class="ui form" id="membership_form">
+					<!-- <h4 class="ui dividing header">Shipping Information</h4> -->
+					<div class="two fields">
+						<div class="field">
+							<label>User</label>
+							<div class="ui search selection dropdown">
+								<input type="hidden"  name="user_id" >
+								<i class="dropdown icon"></i>
+								<!-- <input type="text" class="search" tabindex="0"> -->
+								<div class="default text">Search using email</div>
+								<div class="menu transition hidden" tabindex="-1">
+								</div>
+							</div>
+						</div>	
+						<div class="field">
+							<label>Access type</label>
+							<div class="ui fluid selection dropdown" id='select_type' >
+							<input type="hidden" name="type" value="contributor">
+							<i class="dropdown icon"></i>
+							<div class="default text">Choose type of transaction</div>
+							<div class="menu">
+								<div class="item" data-value="admin">Admin</div>
+								<div class="item" data-value="contributor">Contributor</div>
+								<div class="item" data-value="guest">Guest</div>
+								<div class="item" data-value="albert_agent">Agent</div>
+							</div>
+						</div>
+						</div>
+					</div>
+					
+					<div class="field" style='display:none;' >
+						<input type="text" name="referer"  value="<%=req.headers.referer%>">
+					</div>
+					<div class="ui error message">
+						<div class="header">Error</div>
+						<p><%=gstin.message%></p>
+					</div>
+					<input id="add_member" class="ui basic teal button" value="Add Member">
+					<div class="ui success message">
+						<div class="header">Creating access</div>
+						Hold on tight.. we are creating access for this user. 
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui tiny modal" id="confirmationModal">
+    <div class="header">
+        Confirm Action
+    </div>
+    <div class="content">
+        <p>Do you want to revoke access to this user?</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">No</div>
+        <div class="ui red approve button">Yes</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.popup').popup();
+		$('.revoke_access').click(function(e){
+			var m_id=$(this).attr('data-member-id');
+			console.log('came here');
+			console.log(m_id);
+			var button = this;
+
+			$('#confirmationModal').modal({
+				onApprove: function () {
+					$(button).addClass('loading');
+					$(button).addClass('disabled');
+					var options = {
+						title: 'Removed a member from this Org.',
+						message: 'You have successfully removed a member of this Org.',
+						class: 'success'
+					};
+					$.ajax({
+						url: "/org/<%=req.org.id%>/settings/membership/"+m_id+"/revoke",
+						type: 'DELETE',
+						success: function (result, status) {
+							console.log(result, status);
+							$(this).addClass('loading');
+							showToast(options);
+							setTimeout(function() {
+								location.reload();
+							}, 3000);
+						},
+						error: function (jqXHR, textStatus, errorThrown) {
+							alert("Error: " + jqXHR.responseJSON.error);
+							$(this).removeClass('loading');
+							$(this).removeClass('disabled');
+						}
+					});
+				},
+				onDeny: function () {
+				}
+			})
+			.modal('show');
+		});
+		$('#add_member').click(function(e){
+			$('#add_member').addClass('loading');
+			$('#add_member').addClass('disabled');
+			console.log("button works")
+			var formData = $('#membership_form').serialize();
+			console.log(formData)
+			var options = {
+				title: 'New member added to this Org.',
+				message: 'You have successfully added a new member to this Org.',
+				class: 'success'
+			};
+			$.ajax({
+				url: "/org/<%=req.org.id%>/settings/membership/create",
+				type: 'POST',
+				data: formData,
+				success: function (result, status) {
+					console.log(result, status,"member added");
+					showToast(options);
+					setTimeout(function() {
+						location.reload();
+					}, 3000);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert("Error: " + jqXHR.responseJSON.error);
+					$('#add_member').removeClass('loading');
+					$('#add_member').removeClass('disabled');
+				}
+			});
+		})
+		$('.search.selection.ui.dropdown').dropdown({
+			apiSettings: {
+				// this url parses query server side and returns filtered results
+				url: '/dropdown/users?email={query}'
+			},
+		});
+		$('#select_type').dropdown({});
+		$('#navbar_menu a[href="/org/<%=req.org.id%>/settings"].item').addClass('active');
+		$('.ui.form').form({
+			// fields: {
+			// 	user_id: 'empty',
+			// 	type : 'empty',
+			// },
+			// onSuccess:function(e,results){
+			// 	$(this).addClass('loading');
+			// 	console.log(results)
+			// 	console.log("member added")
+			// 	var options = {
+			// 		title: 'New member added to this Org.',
+			// 		message: 'You have successfully added a new member to this Org.',
+			// 		class: 'success'
+			// 	};
+			// 	showToast(options);
+			// },
+		});
+	});
+</script>

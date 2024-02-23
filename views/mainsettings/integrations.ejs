@@ -1,0 +1,94 @@
+<div class='ui basic container segment'>
+	<div class="ui breadcrumb">
+		<a class="section" href='/org/<%=req.org.id%>'><%=req.org.name%></a>
+		<i class="right angle icon divider"></i>
+		<div class="section">Settings</div>
+		<i class="right angle icon divider"></i>
+		<div class="section">API keys</div>
+	</div>
+	<h1 style='margin-top:0;'>
+		Org Settings:
+	</h1>
+	<div class='ui stackable grid'>
+		<div class='four wide column'>
+			<% include partials/settings_menu %>
+		</div>
+		<div class='twelve wide column'>
+			<h3>
+				Available API keys:
+				<a href="/org/<%=req.org.id%>/settings/api_key/create" class='ui small basic teal right floated button'>
+					Create new API key
+				</a>
+				<a href="https://api-docs.gst.cashflowy.io" class='ui small right floated basic button'>
+					Documentation
+				</a>
+			</h3>
+			<%if(api_keys.length){%>
+				<table class="ui celled unstackable collapsing table" style="display: block;overflow-x:scroll;">
+				    <thead>
+				        <tr>
+				            <th>Created At</th>
+				            <th>Name</th>
+				            <th>Key</th>
+				            <th></th>
+				        </tr>
+				    </thead>
+				    <tbody>
+				    	<%api_keys.forEach(function(api_key){%>
+				        <tr data-id=''>
+				            <td><%=api_key.createdAt.toDateString()%></td>
+				            <td><%=api_key.name%></td>
+				            <td><%=api_key.key%></td>
+				            <td>
+				            	<a href="/org/<%=req.org.id%>/settings/api_key/<%=api_key.id%>/delete" class='ui small basic red right floated button'>Delete</a>
+							</td>
+				        </tr>
+				        <%})%>
+				    </tbody>
+				</table>
+			<%}else{%>
+				<div class="ui info message">
+					<!-- <i class="close icon"></i> -->
+					<div class="header">
+						You have not created any API keys yet
+					</div>
+					<ul class="list">
+						<li>API keys can be used for integrating this app with other applications</li>
+						<li>Click "Create new API Key" button above to create a new API key</li>
+						<li>Click "Documentation" button to read the API documentation</li>
+					</ul>
+				</div>
+			<%}%>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function(){
+		$('#navbar_menu a[href="/org/<%=req.org.id%>/settings"].item').addClass('active');
+		
+		$('#edit_cashflowy').click(function(e){
+			e.preventDefault();
+			$(this).hide();
+			$('#show_cashflowy_details').hide();
+			$('#edit_cashflowy_form').show();
+		});
+		$('#cancel_cashflowy').click(function(e){
+			e.preventDefault();
+			$('#edit_cashflowy').show();
+			$('#show_cashflowy_details').show();
+			$('#edit_cashflowy_form').hide();
+		});
+		$('.ui.form').form({
+		    fields:{
+		        org_id:'empty',
+		        key:'empty',
+		        secret:'empty',
+		        bank_acc:'empty',
+		    },  
+		    onSuccess:function(e,fields){
+		        $(this).addClass('loading');
+		    },
+		});
+	});
+</script>

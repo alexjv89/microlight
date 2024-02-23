@@ -1,0 +1,144 @@
+<%
+	// var create_or_edit = GeneralService.createOrEdit(req.url);
+	var create_or_edit = 'Create';
+	var currency = 'INR';
+	var gstin={}
+%>
+<div class="ui container">
+	<div class="ui grid">
+		<div class='four wide tablet computer only column'></div>
+		<div class='eight wide table eight wide computer sixteen wide mobile column'>
+			<h2 class="ui horizontal divider header">
+				<!-- <i class="list icon"></i> -->
+				<%=create_or_edit%> Sequence
+			</h2>
+			<br>
+			<form class="ui form " action="" method='post'>
+				<!-- <h4 class="ui dividing header">Shipping Information</h4> -->
+				<div class="required field">
+					<label>Name</label>
+					<input type="text" name="name" placeholder="Sequence name" value="<%=sequence.value%>">
+				</div>
+				<div class='two fields'>
+					
+					<div class="required field">
+						<label>Pattern</label>
+						<input type="text" name="pattern" placeholder="Pattern" value="<%=sequence.state? sequence.state: 'POR-{{YYYY-YY}}-{{NNNN}}' %>">
+					</div>
+					<div class="required field">
+						<label>Next</label>
+						<input type="number" name="next" placeholder="Next" value="<%=sequence.state?sequence.state:1%>">
+					</div>
+				</div>
+				<div class="required field">
+					<label>For</label>
+					<div class="ui fluid scrolling dropdown basic button">
+						<input type="hidden" name="for" value='<%=sequence.for?sequence.for:'por'%>'>
+						<i class="dropdown icon"></i>
+						<div class="text">All</div>
+						<div class="menu transition hidden" tabindex="-1">
+							<!-- <div class="item" data-value='all'>All</div> -->
+							<div class="item" data-value='por'>PO Request</div>
+							<div class="item" data-value='invoice'>Invoice</div>
+						</div>
+					</div>
+				</div>
+				<div class="field" style='display:none;' >
+					<input type="text" name="referer"  value="<%=req.headers.referer%>">
+				</div>
+				<div class="ui error message">
+					<div class="header">Error</div>
+					<p><%=sequence.message%></p>
+				</div>
+				<input type="submit" class="ui button" value="Submit">
+				<div class="ui success message">
+						<div class="header">Sequence created</div>
+						You just created a new Sequence.
+				</div>
+			</form>
+		</div>
+		<div class='sixteen wide tablet four wide computer sixteen wide mobile column'>
+			<div class='ui segment'>
+				<h4>Patterns usage:</h4>
+				Use {{YY-YY}} to get 21-22<br>
+				Use {{YYYY-YY}} to get 2021-22<br>
+				Use {{YYYY-YYYY)) to get 2021-2022<br>
+				<br>
+				<br>
+				Use {{NNNN}} - to get 0001<br>
+				Use {{NN}} to get 01<br>
+				Use {{NNNNNN}} to get 000001<br>
+				<br>
+				So possible patterns can be <br>
+				POR-{{YYYY-YY}}-{{NNNN}} will result in POR-2021-22-0001<br>
+
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		<%if(!sequence.date){%>
+			var a = moment(); // create a time instance in the local time zone 
+		<%}else{%>
+			var a = moment('<%=sequence.date%>');
+		<%}%>
+		$('input[name=date]').val(a.format('YYYY-MM-DD'));
+		$('input[name=time]').val(a.format('HH:mm'));
+		$('input[name=tz]').val(a.format('Z'));
+		$('.dropdown').dropdown();
+		$('#select_type').dropdown({
+			onChange: function(value, text, $selectedItem) {
+				console.log(value);
+				console.log(text);
+				switch(value){
+					case 'payable':
+						$('#account label').text('Expensed from');
+						$('#paid_whom label').text('Paid whom');
+						$('#paid_whom').show();
+						$('#to_account').hide();
+						$('#select_type').attr('style','color:red');
+						$('#select_type').prev().attr('style','color:red');
+						break;
+					case 'receivable':
+						$('#account label').text('Deposited to');
+						$('#paid_whom label').text('Source of income');
+						$('#paid_whom').show();
+						$('#to_account').hide();
+						$('#select_type').attr('style','color:#5bc5a2');
+						$('#select_type').prev().attr('style','color:#5bc5a2');
+						break;
+				}
+				// $('.people_in_submenu').hide();
+				// if(value=='staff_curated_list')
+				//  $('#staff_list').show();
+				// // else if(value=='people_i_follow')
+				// else if(value=='my_list')
+				//  $('#your_list').show();
+			}
+		});
+		$('#select_type').dropdown('set selected','<%=sequence.type%>');
+		
+		$('.ui.form').form({
+			fields: {
+				amount_no_tax     : 'empty',
+				amount_including_tax   : 'empty',
+				date : 'empty',
+				cgst : 'empty',
+				sgst : 'empty',
+				igst : 'empty',
+				seller_gst_no : 'empty',
+				third_party : 'empty',
+				description : 'empty',
+				account_id:'empty',
+			},
+			onSuccess:function(e,fields){
+				$(this).addClass('loading');
+			},
+		});
+	})
+
+</script>
+

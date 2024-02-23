@@ -1,0 +1,118 @@
+<div class='ui basic container segment'>
+	<div class="ui breadcrumb">
+		<a class="section" href='/org/<%=req.org.id%>'><%=req.org.name%></a>
+		<i class="right angle icon divider"></i>
+		<div class="section">Settings</div>
+		<i class="right angle icon divider"></i>
+		<div class="section">Members</div>
+	</div>
+	<h1 style='margin-top:0;'>
+		Org Settings:
+	</h1>
+	<div class='ui stackable grid'>
+		<div class='four wide column'>	
+			<% include partials/settings_menu %>
+		</div>
+		<div class='twelve wide column'>
+			<h3>Org details:</h3>
+            <div class="table-container" >
+                <table class="ui celled unstackable collapsing table">
+                    <thead>
+                        <tr>
+                            <th>Created Date</th>
+                            <th>Name</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class='single line'><%=moment(org.createdAt).format("Do MMM, YYYY")%></td>
+                            <td class='single line'><%=org.name%></td>
+                            <td class='single line'><button class="ui basic teal button" id="edit_org">Edit</button>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Modal -->
+<div class="ui tiny modal" id="edit_org_modal">
+	<i class="close icon"></i>
+	<div class="header">
+	  Edit Org
+	</div>
+	<div class="content">
+	  <form class="ui form" id="reportForm" method="POST" action="/org/<%=req.org.id%>/edit">
+		<div class="field">
+		  <label>Name</label>
+		  <input type="text" name="name" placeholder="Enter name" value="<%=org?.name%>">
+		</div>
+	  </form>
+	</div>
+	<div class="actions">
+	  <div class="ui button" id="cancelButton">
+		Cancel
+	  </div>
+	  <button class="ui teal approve right labeled icon button" id="delete_button" type="submit" form="reportForm">
+		Save
+		<i class="checkmark icon"></i>
+	  </button>
+	</div>
+  </div>
+
+<!-- <div class="ui tiny modal" id="connector_modal">
+    <i class="close icon"></i>
+    <div class="header">
+       Do you want to delete this Connector?
+    </div>
+    <div class="content">
+        <h3>Connector details:</h3>
+    </div>
+    <div class="actions">
+		<form  method='post' id="deleteForm" action="/org/<%=req.org.id%>/delete">
+			<div class="ui button" id="cancelButton">
+                Cancel
+            </div>
+			<button class='ui red approve button' id="delete_button">Confirm Delete</button>
+		</form>
+    </div>
+</div> -->
+
+<script type="text/javascript">
+    $(document).ready(function(){
+		// $('#deleteForm').form()
+        // $('#connector_modal').modal();
+        // $('#delete_connector').click(function() {
+		// 	$('#connector_modal').modal({
+		// 		onApprove: function () {
+		// 			$('#delete_connector').addClass('loading');
+		// 			$('#delete_connector').addClass('disabled');
+		// 		},
+		// 	})
+		// 	.modal('show');
+        // });
+        // $('#cancelButton').on('click', function() {
+		// 	$('#connector_modal').modal('hide');
+		// });
+
+		$('#navbar_menu a[href="/org/<%=req.org.id%>/settings"].item').addClass('active');
+		
+        $('#edit_org').on('click', function() {
+			$('#edit_org_modal').modal({
+				onApprove: function () {
+					$('#edit_org').addClass('loading');
+					$('#edit_org').addClass('disabled');
+				},
+			})
+			.modal('show');
+		});
+
+		$('#cancelButton').on('click', function() {
+			$('#edit_org_modal').modal('hide');
+		});
+
+    })
+</script>

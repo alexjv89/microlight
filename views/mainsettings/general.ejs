@@ -1,0 +1,92 @@
+
+<%
+var tab=req.params.tab?req.params.tab:'general';
+%>
+
+<div class='ui basic container segment'>
+	<div class="ui breadcrumb">
+		<a class="section" href='/org/<%=req.org.id%>'><%=req.org.name%></a>
+		<i class="right angle icon divider"></i>
+		<div class="section">Settings</div>
+	</div>
+	<h1 style='margin-top:0;'>
+		Org Settings:
+	</h1>
+	<!-- <div class="ui divider"></div> -->
+	<div class='ui grid'>
+		<div class='four wide column'>
+			<% include partials/settings_menu %>
+		</div>
+		<div class='twelve wide column'>
+			
+			<h3>General</h3>
+			<div id='show_account_details'>
+				<table class="ui table">
+					<tbody>
+						<tr>
+							<td><b>Rundeck Project Name : </b></td>
+							<td><%=_.get(org, 'details.settings.rundeck.project_name') %></td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<br>
+				<br>
+				<a href="" class='ui outside button' id='edit_button'>Edit</a>
+			</div>
+			<div style="display: none;" id='edit_form'>	
+				<h3 class="ui horizontal divider header">
+					Edit General Details
+				</h3>
+				<form form class="ui form " action="" method='post' enctype="multipart/form-data">
+					<!-- <h4 class="ui dividing header">Shipping Information</h4> -->
+					
+					
+					<%if(req.user && _.includes(sails.config.admins, req.user.email)){%>
+					<h4 class="ui dividing header">Rundeck (Admin only)</h4>
+					<div class="two fields">
+						<div class="field">
+							<label>Rundeck Project Name</label>
+							<input type="text" name="rundeck_project_name" placeholder="Name of the rundeck project" value="<%=_.get(org, 'details.settings.rundeck.project_name') %>">
+						</div>
+					</div>
+					<%}%>
+
+
+					<div class="ui error message">
+						<div class="header">Error</div>
+						<p><%= %></p>
+					</div>
+					<button class='ui button' id='cancel_button'>
+						Cancel
+					</button>
+
+
+					<input type="submit" class="ui button" value="Submit">
+				</form>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.popup').popup();
+		$('.dropdown').dropdown();
+		$('#edit_button').click(function(e){
+			e.preventDefault();
+			$('#show_account_details').hide();
+			$('#edit_form').show();
+		});
+		$('#cancel_button').click(function(e){
+			e.preventDefault();
+			$('#show_account_details').show();
+			$('#edit_form').hide();
+		});
+
+		$('.menu .item').tab();
+
+	});
+</script>
+

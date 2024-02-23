@@ -1,0 +1,60 @@
+
+<div class="ui container">
+    <div class="ui middle aligned one column centered grid">
+        <div class="sixteen wide mobile six wide computer column" style="margin-top:100px">
+            <center>
+                <h2 class="ui black image header">Forgot your password</h2>
+                <p style="font-size:13px;opacity: 0.5;">
+                    Just drop in your registered email id and we will help you with the reset right away.
+                    </br>
+                    Keep this one safe. Link is valid for 10 mins.</p>
+            </center>
+            <br>
+            <form class="ui large form" method="POST" id="passwordResetForm">
+                <div class="ui stacked segment">
+                    <div class="required field">
+                        <div class="ui big left icon input">
+                            <i class="envelope icon"></i>
+                            <input type="text" name="email" placeholder="E-mail address" required="">
+                        </div>
+                    </div>
+                    <button class="ui green button" type="submit">Send link</button>
+                </div>
+                <div class="ui error message">
+                </div>
+            </form>
+            <% if(error){ %>
+                <div class="ui error message">
+                    <%=error%>
+                </div>
+                <% }else if(message){ %>
+                <div class="ui positive message">
+                    <%=message%>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        // Initialize form validation
+        $('#passwordResetForm').form({
+            fields: {
+                email: {
+                    identifier: 'email',
+                    rules: [
+                        {
+                            type: 'empty',
+                            prompt: 'Please enter your email address'
+                        },
+                        {
+                            type: 'regExp[/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/]',
+                            prompt: 'Please enter a valid email address.'
+                        }
+                    ]
+                }
+            },
+        });
+    });
+</script>

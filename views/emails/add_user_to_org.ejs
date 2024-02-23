@@ -1,0 +1,18 @@
+<% include css_for_email %>
+<div class='ui container'>
+	<div class='ui segment'>
+		<p>Hi <%=user.name.split(' ')[0]%>,</p>
+		<p>
+			You have been added to org - <%=org.name%> on Cashflowy.
+		</p>
+		<p>
+			Click on the button below to view the Org.<br>
+			<br>
+			<a class='ui primary button' href="<%=url%>">View Org</a>
+		</p>
+		
+		<p>
+			Note: This link requires login. If you have never visited Cashflowy site before, you will need to set your password first before proceeding.
+		</p>
+	</div>
+</div>

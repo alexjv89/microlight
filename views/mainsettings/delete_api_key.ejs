@@ -1,0 +1,54 @@
+<%
+	var base_url={
+		
+	}
+	var invoice = {}
+%>
+<div class='ui container'>
+	<h3 class='ui horizontal divider'>API key details</h3>
+	<div class="ui raised fluid segment">
+		<table class="ui very basic table" >
+			<tbody>
+				<tr>
+					<td class='six wide right aligned'>Creation date:</td>
+					<td><%=api_key.createdAt.toDateString()%></td>
+				</tr>
+				<tr>
+					<td class='right aligned'>Name:</td>
+					<td><%=api_key.name%></td>
+				</tr>
+				<tr>
+					<td class='right aligned'>Key id:</td>
+					<td><%=api_key.key%></td>
+				</tr>
+			</tbody>
+		</table>
+		
+	</div>
+	<div class ='ui segment'>
+		<h3 class='ui red header'>Do you want to delete this API Key?</h3>
+		<!-- <h3><%=invoice.type?invoice.type:'unknown'%> invoice</h3> -->
+		<div class='ui warning message'>
+			<h4>Warning</h4>
+			This will permantly delete this API Key. This step is irreversible.
+		</div>	
+		
+		<form  method='post' class='ui form' action="">
+			<a href="/org/<%=req.org.id%>/settings/apikeys" class='ui button'>Cancel</a>
+			<button class='ui red button'>Confirm Delete</button>
+		</form>
+	</div>
+	
+	
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.button').click(function(){
+			$(this).addClass('loading').addClass('disabled');
+		})
+		// $('#unlink_gstr1').click(function(){
+		// 	$(this).addClass('loading').addClass('disabled');
+		// })
+		
+	})
+</script>

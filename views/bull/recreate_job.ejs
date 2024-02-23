@@ -1,0 +1,57 @@
+<%
+	var invoice=[];
+%>
+<div class='ui container'>
+
+
+	<div class="ui container">
+		<div class="ui grid">
+			<div class='four wide tablet computer only column'></div>
+			<div class='eight wide table eight wide computer sixteen wide mobile column'>
+				<h2 class="ui horizontal divider header" >
+					<!-- <i class="list icon"></i> -->
+					Recreate a job
+				</h2>
+				<br>
+				<form class="ui form " action="/bull/<%=req.params.queue%>/job/add" method='post'>
+					
+					<div class="field">
+						<label>Job name</label>
+						<input type="text" name="name" placeholder="job name" value="<%=job.name%>">
+					</div>	
+
+					<div class="field">
+					    <label>Data</label>
+					    <textarea name="data"><%=JSON.stringify(job.data,null,'   ')%></textarea>
+					</div>
+					<input type="submit" class="ui button" value="Submit">
+					
+					
+					<div class="field" style='display:none;' >
+						<input type="text" name="referer"  value="<%=req.headers.referer%>">
+					</div>
+					<div class="ui error message">
+						<div class="header">Error</div>
+						<p><%=invoice.message%></p>
+					</div>
+
+					<div class="ui success message">
+						
+					</div>
+				
+				</form>
+			</div>
+			<div class='sixteen wide tablet four wide computer sixteen wide mobile column'>
+				<div class='ui segment'>
+					<!-- You are creating a manual Invoice.  -->
+					<br/><br/>
+					<!-- <b>Email:</b> 
+					For now we support only gmail address. The gmail address can be a business gmail address also. 
+					<br/><br/>
+					<b>Token:</b>
+					You will need to enter token detail here for now. It will be automated later.  -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

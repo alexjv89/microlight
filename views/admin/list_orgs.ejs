@@ -1,0 +1,111 @@
+
+<div class='ui container'>
+	<h3>Orgs : <a href="/admin/org/create" class='ui basic button'>Create new Org</a></h3>
+	<table class="ui celled unstackable collapsing table" style="display: block;overflow-x:scroll;">
+		<thead>
+			<tr>
+				<th>Created On</th>
+				<th>Name</th>
+				<th>Members</th>
+				<th>Are you a Member?</th>
+				<th>Become member</th>
+
+				<!-- <th>MRR</th> -->
+			</tr>
+		</thead>
+		<tbody>
+			<%orgs.forEach(function(org){%>
+				<tr data-id='<%=org.id%>'>
+					<td class='single line'><%=org.createdAt.toISOString().substring(0,10)%></td>
+					<td><a href="/org/<%=org.id%>"><%=org.name%></a></td>
+					<td><%=org.members.length%></td>
+					<td class="<%=org.is_member?'positive':'negative'%>"><%=org.is_member%></td>
+					<td>
+						<%if(org.is_member){%>
+						<a class='exit_org ui purple button' data-org-id='<%=org.id%>'>
+							Exit org
+						</a>
+						<%}else{%>
+						<a class='join_org ui purple basic button' data-org-id='<%=org.id%>'>
+							Join org
+						</a>
+						<%}%>
+					</td>
+					<!-- <td class="<%=org.mrr?'positive':'negative'%>"><%=org.mrr%></td> -->
+					
+				</tr>
+			<%})%>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('a[href="/admin"]').addClass('active');
+		$('.join_org').click(function(e){
+			$(this).addClass('loading');
+			$(this).addClass('disabled');
+			console.log("button works")
+			
+			
+			var options = {
+				title: 'Joined this Org.',
+				message: 'You have successfully added yourself to this Org.',
+				class: 'success'
+			};
+			$.ajax({
+				url: "/admin/membership/create",
+				type: 'POST',
+				data: {
+					type:'admin',
+					user_id:'<%=req.user.id%>',
+					org_id:$(this).attr('data-org-id'),
+				},
+				success: function (result, status) {
+					console.log(result, status,"member added");
+					showToast(options);
+					setTimeout(function() {
+						location.reload();
+					}, 3000);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert("Error: " + jqXHR.responseJSON.error);
+					$('.join_org').removeClass('loading');
+					$('.join_org').removeClass('disabled');
+				}
+			});
+		});
+		$('.exit_org').click(function(e){
+			$(this).addClass('loading');
+			$(this).addClass('disabled');
+			console.log("button works")
+			
+			
+			var options = {
+				title: 'Exited this Org.',
+				message: 'You have successfully removed yourself from this Org.',
+				class: 'success'
+			};
+			$.ajax({
+				url: "/admin/membership/delete",
+				type: 'DELETE',
+				data: {
+					type:'admin',
+					user_id:'<%=req.user.id%>',
+					org_id:$(this).attr('data-org-id'),
+				},
+				success: function (result, status) {
+					console.log(result, status,"member added");
+					showToast(options);
+					setTimeout(function() {
+						location.reload();
+					}, 3000);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert("Error: " + jqXHR.responseJSON.error);
+					$('.exit_org').removeClass('loading');
+					$('.exit_org').removeClass('disabled');
+				}
+			});
+		});
+	})
+</script>

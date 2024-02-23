@@ -1,0 +1,149 @@
+
+<style>
+	.ui.grid>.row{
+	padding: 0.5rem 0;
+	}
+</style>
+
+<%
+var tab=req.params.tab?req.params.tab:'general';
+var org = {}
+%>
+
+<div class='ui container'>
+	<h1 class='center aligned'>User Settings:</h1>
+	<!-- <div class="ui divider"></div> -->
+	<div class='ui grid'>
+		<div class='four wide column'>
+			<% include partials/settings_menu %>
+		</div>
+		<div class='twelve wide column'>
+			
+			<h3>General</h3>
+			<div id='show_account_details'>
+				<table class="ui table">
+					<tbody>
+						<tr>
+							<td><b>Timezone : </b></td>
+							<td>
+								<%if(_.get(req.user, 'details.settings.timezone')){%>
+								(GMT <%=moment.tz(req.user.details.settings.timezone).format('Z')%>) 
+								<%=_.get(req.user, 'details.settings.timezone') %>
+								<%}%>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<br>
+				<br>
+				<a href="" class='ui outside button' id='edit_button'>Edit</a>
+			</div>
+			<div style="display: none;" id='edit_form'>	
+				<h3 class="ui horizontal divider header">
+					Edit General Details
+				</h3>
+				<form form class="ui form " action="" method='post' enctype="multipart/form-data">
+					<!-- <h4 class="ui dividing header">Shipping Information</h4> -->
+					
+					
+					<!-- <h4 class="ui dividing header">Rundeck (Admin only)</h4> -->
+					<div class="two fields">
+						
+						<div class="field">
+							<label>Timezone</label>
+							<div class="ui fluid search selection dropdown">
+								<input type="hidden" name="timezone" placeholder="Choose file type" value="">
+								<i class="dropdown icon"></i>
+								<div class="default text">Choose timezone</div>
+								<div class="menu">
+									<%timezones.forEach(function(tz){%>
+										<% var timezone = tz.offset ? moment.tz(tz.name).format('Z') : '';%>
+										<div class='item' data-value="<%=tz.name%>"></i>(GMT <%=timezone%>) <%=tz.name%></div>
+									<%})%>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+
+
+
+					<div class="ui error message">
+						<div class="header">Error</div>
+						<p><%= %></p>
+					</div>
+					<button class='ui button' id='cancel_button'>
+						Cancel
+					</button>
+
+
+					<input type="submit" class="ui button" value="Submit">
+				</form>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.popup').popup();
+		$('.dropdown').dropdown({
+			fullTextSearch:true,
+		});
+		$('#edit_button').click(function(e){
+			e.preventDefault();
+			$('#show_account_details').hide();
+			$('#edit_form').show();
+		});
+		$('#cancel_button').click(function(e){
+			e.preventDefault();
+			$('#show_account_details').show();
+			$('#edit_form').hide();
+		});
+
+		$('.menu .item').tab();
+
+
+
+		const dateTimeUtc = moment("2017-06-05T19:41:03Z").utc();
+		document.querySelector(".js-TimeUtc").innerHTML = dateTimeUtc.format("ddd, DD MMM YYYY HH:mm:ss");
+
+		const selectorOptions = moment.tz.names()
+			.reduce((memo, tz) => {
+				memo.push({
+					name: tz,
+					offset: moment.tz(tz).utcOffset()
+				});
+				
+				return memo;
+			}, [])
+			.sort((a, b) => {
+				return a.offset - b.offset
+			})
+			.reduce((memo, tz) => {
+				const timezone = tz.offset ? moment.tz(tz.name).format('Z') : '';
+
+				return memo.concat(`<option value="${tz.name}">(GMT${timezone}) ${tz.name}</option>`);
+			}, "");
+
+		document.querySelector(".js-Selector").innerHTML = selectorOptions;
+
+		document.querySelector(".js-Selector").addEventListener("change", e => {
+			const timestamp = dateTimeUtc.unix();
+			const offset = moment.tz(e.target.value).utcOffset() * 60;
+			const dateTimeLocal = moment.unix(timestamp + offset).utc();
+
+			document.querySelector(".js-TimeLocal").innerHTML = dateTimeLocal.format("ddd, DD MMM YYYY HH:mm:ss");
+		});
+
+		document.querySelector(".js-Selector").value = "Europe/Madrid";
+
+		const event = new Event("change");
+		document.querySelector(".js-Selector").dispatchEvent(event);
+
+
+	});
+</script>
+

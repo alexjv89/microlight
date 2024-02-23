@@ -1,0 +1,24 @@
+<!-- <h4>GSTIN settings</h4> -->
+<div class="ui vertical fluid pointing menu">
+	<!-- <a class="item" href='/org/<%=req.params.o_id%>/settings'>
+		General
+	</a> -->
+	<a class="item" href='/org/<%=req.params.o_id%>/settings/general'>
+		General
+	</a>
+	<a class="item" href='/org/<%=req.params.o_id%>/settings/members'>
+		Members
+	</a>
+	<a class="item" href='/org/<%=req.params.o_id%>/settings/apikeys'>
+		API Keys
+	</a>
+	<a class="item" href='/org/<%=req.params.o_id%>/settings/feature_flags'>
+		Preferences
+	</a>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('head title').text('Settings | <%= req.org.name %>');
+	})
+</script>

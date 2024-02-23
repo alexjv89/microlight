@@ -1,0 +1,66 @@
+<div class='ui basic container segment'>
+	<div class="ui breadcrumb">
+		<a class="section" href='/org/<%=req.org.id%>'><%=req.org.name%></a>
+		<i class="right angle icon divider"></i>
+		<div class="section">Settings</div>
+		<i class="right angle icon divider"></i>
+		<div class="section">Preferences</div>
+	</div>
+	<h1 style='margin-top:0;'>
+		Org Settings:
+	</h1>
+	<div class='ui grid'>
+		<div class='four wide column'>
+			<% include partials/settings_menu %>
+		</div>
+		<div class='twelve wide column'>
+			<div class="ui compact raised segment">
+				<h3>Configure feature flags</h3>
+				<div class='ui divider'></div>
+				<form  class="ui form " action="" method='post'>
+					<%sails.config.feature_flags.forEach(function(ff){%>
+						<div class="inline field" data-position="top center" data-content="<%=ff.description%>">
+							<div class="ui toggle checkbox">
+								<input name="<%=ff.slug%>" type="checkbox" tabindex="0" class="hidden" <%= _.get(req.org,`details.feature_flags.${ff.slug}`)?'checked':''%> >
+								<label><%=ff.name%></label>
+							</div>
+						</div>
+					<%})%>
+					<div class="ui error message">
+						<div class="header">Error</div>
+					</div>
+					<!-- <button class='ui button' id='cancel_razorpayx'>
+						Cancel
+					</button> -->
+					<button class='ui primary button'>
+						Save
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function(){
+		$('#navbar_menu a[href="/org/<%=req.org.id%>/settings"].item').addClass('active');
+		$('.ui.checkbox').checkbox();
+		$('#cancel_razorpayx').click(function(e){
+			e.preventDefault();
+			$('#edit_razorpayx').show();
+			$('#show_razorpayx_details').show();
+			$('#edit_razorpayx_form').hide();
+		});
+		// $('.inline.field').
+		$('.ui.form').form({
+		    fields:{
+		        org_id:'empty',
+		        key:'empty',
+		        secret:'empty',
+		        bank_acc:'empty',
+		    },  
+		    onSuccess:function(e,fields){
+		        $(this).addClass('loading');
+		    },
+		});
+	});
+</script>

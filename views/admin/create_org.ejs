@@ -1,0 +1,131 @@
+<%
+	// var create_or_edit = GeneralService.createOrEdit(req.url);
+	var create_or_edit = 'Create';
+	var currency = 'INR';
+	var firm = {};
+%>
+<div class="ui container">
+	<div class="ui grid">
+		<div class='four wide tablet computer only column'></div>
+		<div class='eight wide table eight wide computer sixteen wide mobile column'>
+			<h2 class="ui horizontal divider header">
+				<!-- <i class="list icon"></i> -->
+				<%=create_or_edit%> Org
+			</h2>
+			<br>
+			<form class="ui form " action="" method='post'>
+				<!-- <h4 class="ui dividing header">Shipping Information</h4> -->
+				<div class="two fields">
+					<div class="field">
+						<label>Name</label>
+						<input type="text" name="name" placeholder="Name of org" value="<%=org.value%>">
+					</div>	
+					<div class="field">
+						<label>PAN</label>
+						<input type="text" name="pan" placeholder="PAN" value="<%=org.pan%>">
+					</div>	
+				</div>
+				<div class="field">
+					<label>Email</label>
+					
+					<div class="ui right labeled input">
+						<input type="text" name="email" placeholder="email" value="<%=org.email%>">
+						<div class="ui basic label">
+							@parser.mralbert.in
+						</div>
+					</div>
+				</div>	
+				<div class="field" id='paid_whom'>
+					<label>Billing address</label>
+					<input type="text" name="billing_address" placeholder="Billing address" value="<%=org.billing_address%>">
+				</div>
+				
+				<div class="field" style='display:none;' >
+					<input type="text" name="referer"  value="<%=req.headers.referer%>">
+				</div>
+				<div class="ui error message">
+					<div class="header">Error</div>
+					<p><%=org.message%></p>
+				</div>
+				<input type="submit" class="ui button" value="Submit">
+				<div class="ui success message">
+						<div class="header">firm created</div>
+						You just created a firm
+				</div>
+			</form>
+		</div>
+		<!-- <div class='sixteen wide tablet four wide computer sixteen wide mobile column'>
+			<div class='ui segment'>
+				You are manually creating a org. This is any partner that you work with. 
+				<br/><br/>
+				
+			</div>
+		</div> -->
+	</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		<%if(!org.date){%>
+			var a = moment(); // create a time instance in the local time zone 
+		<%}else{%>
+			var a = moment('<%=org.date%>');
+		<%}%>
+		$('input[name=date]').val(a.format('YYYY-MM-DD'));
+		$('input[name=time]').val(a.format('HH:mm'));
+		$('input[name=tz]').val(a.format('Z'));
+		$('.dropdown').dropdown();
+		$('#select_type').dropdown({
+			onChange: function(value, text, $selectedItem) {
+				console.log(value);
+				console.log(text);
+				switch(value){
+					case 'payable':
+						$('#account label').text('Expensed from');
+						$('#paid_whom label').text('Paid whom');
+						$('#paid_whom').show();
+						$('#to_account').hide();
+						$('#select_type').attr('style','color:red');
+						$('#select_type').prev().attr('style','color:red');
+						break;
+					case 'receivable':
+						$('#account label').text('Deposited to');
+						$('#paid_whom label').text('Source of income');
+						$('#paid_whom').show();
+						$('#to_account').hide();
+						$('#select_type').attr('style','color:#5bc5a2');
+						$('#select_type').prev().attr('style','color:#5bc5a2');
+						break;
+				}
+				// $('.people_in_submenu').hide();
+				// if(value=='staff_curated_list')
+				// 	$('#staff_list').show();
+				// // else if(value=='people_i_follow')
+				// else if(value=='my_list')
+				// 	$('#your_list').show();
+			}
+		});
+		$('#select_type').dropdown('set selected','<%=org.type%>');
+		
+		$('.ui.form').form({
+			fields: {
+				amount_no_tax     : 'empty',
+				amount_including_tax   : 'empty',
+				date : 'empty',
+				cgst : 'empty',
+				sgst : 'empty',
+				igst : 'empty',
+				seller_gst_no : 'empty',
+				third_party : 'empty',
+				description : 'empty',
+				account_id:'empty',
+			},
+			onSuccess:function(e,fields){
+				$(this).addClass('loading');
+			},
+		});
+	})
+
+</script>
+

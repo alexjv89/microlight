@@ -1,0 +1,76 @@
+<% include ../css_for_email %>
+<%
+	// this is only useful for previewing this template
+	var pf=function(number){
+		// this function cleans up a string containing a number. 
+		// removes all charector that is not a digit of a dot. 
+		var temp ='';
+		for (const c of number) {
+			// console.log(c);
+			// console.log(c.match(/\d+/));
+			// if the charector is a digit of a full stop
+			if(c.match(/\d+/) || c=='.')
+				temp+=c;
+		}
+		console.log(temp);
+		return parseFloat(temp);
+	}
+	
+	var fn=function(number){
+
+		if(typeof number=='string'){
+			number=pf(number);
+		}
+		if(a=GeneralService.sails_helper.formatNumber(number,'indian','1'))
+			return a;
+		else 
+			return 0;
+	}
+	var filing={};
+	var gstin={};
+%>
+<div class='ui container'>
+	<div class='ui segment'>
+		<h2>Approved PO Requests pending payment:</h2>	
+		<%if(po_requests.length){%>
+			<table class="ui celled unstackable collapsing table">
+				<thead>
+					<tr>
+						<th>Date</th>
+						<th>PO Request no</th>
+						<th>Vendor</th>
+						<th>Payment process</th>
+						<th>PO Basic Total</th>
+						<th>PO Grand Total</th>
+						<th>PO Amount Paid</th>
+						<th>Is Paid Out</th>
+					</tr>
+				</thead>
+				<tbody>
+					<%po_requests.forEach(function(por){%>
+						<tr data-id='<%=por.id%>'>
+							<td class='single line'><%=por.Date_field%></td>
+							<td class='single line'><a href='https://creatorapp.zoho.in/info_exponent/po-request#Report:All_PO_Requests'><%=por.PO_request_number%></a></td>
+							<td><%=por.Vendor.display_value%></td>
+							<td><%=por.Payment_process%></td>
+							<td><%=por.PO_basic_total%></td>
+							<td><%=por.PO_grand_total%></td>
+							<td><%=por.PO_amount_paid%></td>
+							<td class='negative'><%=por.Is_paid_out%></td>
+						</tr>
+					<%})%>
+				</tbody>
+			</table>
+		<%}else{%>
+			<div class="ui info message">
+				<!-- <i class="close icon"></i> -->
+				<div class="header">
+					You dont have any income invoices for this period - <%=filing.for%>.
+				</div>
+				<ul class="list">
+					<li>We will mention income as NIL in this GSTR1 filing</li>
+				</ul>
+			</div>
+		<%}%>
+	</div>
+</div>

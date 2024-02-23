@@ -1,0 +1,170 @@
+<div class="ui container" style="margin-top: 40px;">
+	<div class="ui stackable *columns centered grid">
+	  <div class="eight wide tablet six wide computer two wide mobile column">
+		<div class="ui classic segment">
+		  <h1 class="ui header">Sign up</h1>
+		  <form
+			action=""
+			method="post"
+			class='ui <%-error?"error":""%> form'
+			id="signup-form"
+		  >
+			<div class="ui error message" id="error_Div">
+			  <div class="header">Please correct error in form</div>
+			  <p><%-error%></p>
+			</div>
+			<div class="field">
+			  <div class="ui left icon input">
+				<input
+				  name="name"
+				  id="name"
+				  type="text"
+				  placeholder="Name"
+				  value="<%=user.name%>"
+				  required
+				/>
+				<i class="user icon"></i>
+			  </div>
+			</div>
+  
+			<div class="field">
+			  <div class="field ui left icon input">
+				<input
+				  id="email"
+				  name="email"
+				  type="email"
+				  placeholder="Email"
+				  value="<%=user.email%>"
+				  required
+				/>
+				<i class="envelope icon"></i>
+			  </div>
+			</div>
+  
+			<div class="field">
+			  <div class="field ui left icon input">
+				<input
+				  name="password"
+				  id="password"
+				  type="password"
+				  placeholder="New Password"
+				  data-content="Password should be at least 6 characters long. Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character."
+				  required
+				/>
+				<i class="lock icon"></i>
+			  </div>
+			</div>
+  
+			<div class="field">
+			  <div class="field ui left icon input">
+				<input
+				  name="confirmPassword"
+				  id="confirmPassword"
+				  type="password"
+				  placeholder="Confirm Password"
+				  data-content="Password should be at least 6 characters long."
+				  required
+				/>
+				<i class="lock icon"></i>
+			  </div>
+			</div>
+
+			<div class="inline field">
+				<div class="ui checkbox" id="login_checkbox">
+					<input type="checkbox" tabindex="0" id="show_password" class="hidden">
+					<label>Show Password and Confirm password</label>
+				</div>
+			</div>
+
+			<p style="color: grey;">By signing up, I agree to Cashflowy's <a href="https://cashflowy.io/terms-and-conditions/" target="_blank">Terms of Service</a></p>
+  
+			<input type="submit" class="ui teal button" value="Sign up" />
+		  </form>
+		</div>
+		<div class="ui segment">
+		  <h3>Already signed up? Login instead</h3>
+		  <a href="/login" class="ui button">Click here to login</a>
+		</div>
+	  </div>
+	</div>
+  </div>
+  
+  <script>
+	$(document).ready(function() {
+		$('head title').text('Sign Up | Cashflowy');
+
+		$('#login_checkbox').checkbox()
+		$('#show_password').change(function() {
+            var password_input = $('#password');
+			var confirm_password_input = $('#confirmPassword');
+            if (this.checked) {
+                password_input.attr('type', 'text');
+				confirm_password_input.attr('type', 'text');
+            } else {
+                password_input.attr('type', 'password');
+				confirm_password_input.attr('type', 'password');
+            }
+        });
+	  $('#signup-form').form({
+		fields: {
+		  name: {
+			identifier: 'name',
+			rules: [
+			  {
+				type: 'empty',
+				prompt: 'Please enter your name.'
+			  },
+			  {
+				type: 'regExp[/^[a-zA-Z ]*$/]',
+				prompt: 'Name should only contain letters and spaces.'
+			  }
+			]
+		  },
+		  email: {
+			identifier: 'email',
+			rules: [
+			  {
+				type: 'empty',
+				prompt: 'Please enter your email address.'
+			  },
+			  {
+				type: 'regExp[/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/]',
+				prompt: 'Please enter a valid email address.'
+			  }
+			]
+		  },
+		  password: {
+			identifier: 'password',
+			rules: [
+			  {
+				type: 'empty',
+				prompt: 'Please enter your password.'
+			  },
+			  {
+				type: 'minLength[6]',
+				prompt: 'Password should be at least 6 characters long.'
+			  },
+			  {
+				type: 'regExp[/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&*()_+[\]{};:\\"\\\\|,.<>/?-])/',
+				prompt: 'Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character.'
+			  }
+			]
+		  },
+		  confirmPassword: {
+			identifier: 'confirmPassword',
+			rules: [
+			  {
+				type: 'empty',
+				prompt: 'Please confirm your password.'
+			  },
+			  {
+				type: 'match[password]',
+				prompt: "Passwords don't match."
+			  }
+			]
+		  }
+		},
+	  });
+	});
+  </script>
+  

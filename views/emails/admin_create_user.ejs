@@ -1,0 +1,18 @@
+<% include css_for_email %>
+<div class='ui container'>
+	<div class='ui segment'>
+		<p>Hi <%=name.split(' ')[0]%>,</p>
+		<p>
+			Welcome to Cashflowy.io. We have created an account for you. 
+		</p>
+		<p>
+			Click on the button below to set password for your account. <br>
+			<br>
+			<a class='ui primary button' href="https://app.cashflowy.io/set_password?email=<%=email%>&token=<%=token%>">Set Password</a>
+		</p>
+		
+		<p>
+			Once you set your password, you can access your GST dashboard on Mr Albert. 
+		</p>
+	</div>
+</div>

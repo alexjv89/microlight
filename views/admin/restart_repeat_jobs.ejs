@@ -1,0 +1,8 @@
+<div class="ui container">
+	<h2>Restart repeat jobs</h2>
+	<h3>Showing list of repeat jobs</h3>
+	<pre><%=JSON.stringify(sails.config.bull.repeats,2,2)%></pre>
+	<form class="ui form " action="" method='post'>
+		<input type="submit" class="ui primary button" value="Restart repeat jobs">
+	</form>
+</div>

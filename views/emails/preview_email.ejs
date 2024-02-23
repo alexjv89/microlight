@@ -1,0 +1,72 @@
+<div class='ui container'>
+	<h1>Preview email</h1>
+	<div class='ui mobile reversed stackable grid'>
+		<div class='eight wide column'>
+			<table class="ui very compact celled unstackable table">
+			    <tbody>
+			        <tr>
+			            <td class='active'>Subject: </td>
+			            <td><%=subject%></td>
+			        </tr>
+			        <tr>
+			            <td class='active'>From: </td>
+			            <td><%=from%></td>
+			        </tr>
+			        <tr>
+			            <td class='active'>To: </td>
+			            <td><%=to%></td>
+			        </tr>
+			        <tr>
+			            <td class='active'>CC: </td>
+			            <td><%=cc%></td>
+			        </tr>
+			        <tr>
+			            <td class='active'>Template: </td>
+			            <td><%=template%></td>
+			        </tr>
+			    </tbody>
+			</table>
+		</div>
+		<div class='eight wide column'>
+			<button class='basic green ui right floated button' id='resend_email'>
+			    Resend email
+			</button>
+		</div>
+	</div>
+	<br>
+	<%- include(template, locals); %>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#resend_email').click(function(){
+			console.log('resend email');
+			var button = this;
+			$(button).addClass('loading');
+
+			// Get data from DOM
+
+			var job={
+				name:'send_transactional_email',
+				data:{
+					title:'Send transactional email',
+					options:<%- JSON.stringify(req.query)%>
+				}
+			}
+			job.data.options.template='<%=req.params.template%>'
+			// Make post request
+			$.post("/bull/queue/job/add",job , function(result,status){
+			    console.log('result = '+result);
+			    console.log('status = '+status);// this runs only on sucess
+			    if(status=='success'){
+			        $(button).removeClass('loading');
+			        showToast({
+			        	class:'success',
+						title: 'Job added to queue',
+			        	message: 'A job for reparsing portal data is added to the queue'
+			        })
+			        // $(button).addClass('disabled');
+			    }
+			});
+		});
+	})
+</script>

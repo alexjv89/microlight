@@ -1,0 +1,25 @@
+<%
+	function updateQueryStringParameter(uri, key, value) {
+		var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+		var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+		if (uri.match(re)) {
+		  return uri.replace(re, '$1' + key + "=" + value + '$2');
+		}
+		else {
+		  return uri + separator + key + "=" + value;
+		}
+	}
+
+%>
+<div class="ui pagination menu">
+	<a class="<%= page_menu.page==1?'disabled':''%> item" href="<%=page_menu.page==1?'#':updateQueryStringParameter(req.url, 'page', page_menu.page-1)%>">
+		<i class="icon caret left"></i>
+	</a>
+	<div class="item">
+		<%= page_menu.page%> / <%= page_menu.pages%> 
+	</div>
+	<a class="<%= page_menu.page==page_menu.pages?'disabled':''%> item" href="<%=page_menu.page==page_menu.pages?'#':updateQueryStringParameter(req.url, 'page', page_menu.page+1)%>">
+		<i class="icon caret right"></i>
+	</a>
+</div>
+&nbsp;&nbsp; Showing upto <%=page_menu.limit%> <%=page_menu.item_name%> per page

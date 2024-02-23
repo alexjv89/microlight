@@ -1,0 +1,71 @@
+<div class="ui container">
+	<div class="ui grid">
+		<div class='four wide tablet computer only column'></div>
+		<div class='eight wide table eight wide computer sixteen wide mobile column'>
+			<h2 class="ui horizontal divider header">
+				<!-- <i class="list icon"></i> -->
+				Create new user and send invite email
+			</h2>
+			<br>
+			<form class="ui <%-error?"error":""%> form " action="" method='post'>
+				<!-- <h4 class="ui dividing header">Shipping Information</h4> -->
+				<div class="two fields">
+					<div class="field">
+						<label>Name</label>
+						<input type="text" name="name" placeholder="Alex J V" value="<%=user.name%>">
+					</div>	
+					<div class="field">
+						<label>Email</label>
+						<input type="email" name="email" placeholder="alex@example.com" value="<%=user.email%>">
+					</div>
+				</div>
+				
+				<div class="field" style='display:none;' >
+					<input type="text" name="referer"  value="<%=req.headers.referer%>">
+				</div>
+				<div class="ui error message">
+					<div class="header">Please correct error in form</div>
+					<p><%-error%></p>
+				</div>
+				<input type="submit" class="ui button" value="Submit">
+				<div class="ui success message">
+						<div class="header">User created</div>
+						You just created a new user
+				</div>
+			</form>
+		</div>
+		<div class='sixteen wide tablet four wide computer sixteen wide mobile column'>
+			<div class='ui segment'>
+				You are creating a new user. 
+				<br/><br/>
+				Make sure the email is right. 
+				<br/><br/>
+				User will get an email with instructions to setup an account. 
+				<!-- <b>Email:</b> 
+				For now we support only gmail address. The gmail address can be a business gmail address also. 
+				<br/><br/>
+				<b>Token:</b>
+				You will need to enter token detail here for now. It will be automated later.  -->
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		
+		$('.ui.form').form({
+			fields: {
+				name     : 'empty',
+				email   : 'email',
+			},
+			onSuccess:function(e,fields){
+				$(this).addClass('loading');
+			},
+		});
+	})
+
+</script>
+

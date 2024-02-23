@@ -1,0 +1,133 @@
+<div class='ui container' style="margin-top: 40px;">
+	<div class='ui stackable *columns centered grid'>
+		<!-- <div class='three wide tablet computer only column'></div> -->
+		<div class='eight wide tablet six wide computer two wide mobile  column'>
+			<div class='ui segment'>
+
+				<h1>Login</h1>
+
+				<form action="/login?redirect=<%=req.query.redirect%>" method="post" class='ui <%-error?"error":""%> form'>
+					<div class="ui error message">
+						<div class="header">Please correct error in form</div>
+						<p><%-error%></p>
+					</div>
+					<div class="field">
+						<div class="field ui left icon input">
+							<input name="email" type="text" placeholder="Email" value="<%=email%>"/>
+							<i class="envelope icon"></i>
+						</div>
+					</div>
+					<div class="field">
+						<div class="field ui left icon input">
+							<input name="password" type="password" id="password_input" placeholder="Password"/>
+							<i class="lock icon"></i>
+						</div>
+					</div>
+					<div class="inline field">
+						<div class="ui checkbox" id="login_checkbox">
+							<input type="checkbox" tabindex="0" id="show_password" class="hidden">
+							<label>Show Password</label>
+						</div>
+					</div>
+					<input type="submit"/ class='ui teal button' value="Log In">
+				</form>
+			</br>
+				<a href="/forgot">Forgot your password?</a>
+			</div>
+			<!-- <div class='ui segment'>
+				<div class='g-sign-in-button'>
+					<div class=content-wrapper onclick="window.location='/auth/google'" >
+						<div class='logo-wrapper'>
+							<img src='https://developers.google.com/identity/images/g-logo.png' >
+						</div>
+						<span class='text-container'>
+					  		<span>Sign in with Google</span>
+						</span>
+					</div>
+				</div>
+			</div> -->
+			<div class='ui segment'>
+				<h3>New here? Signup instead </h3>
+				<a href="/signup" class='ui button'>Get Started For Free</a>
+			</div>
+		</div>
+		<!-- <div class='three wide tablet computer only column'></div> -->
+	</div>
+	
+</div>
+<script>
+	$(document).ready(function(e){
+		$('#login_checkbox').checkbox()
+		$('#show_password').change(function() {
+            var password_input = $('#password_input');
+            if (this.checked) {
+                password_input.attr('type', 'text');
+            } else {
+                password_input.attr('type', 'password');
+            }
+        });
+	})
+</script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<style>
+	*, *:before, *:after {
+		box-sizing: border-box;
+	}
+
+	.g-sign-in-button {
+		margin: 10px;
+		display: inline-block;
+		width: 240px;
+		height: 50px;
+		background-color: #4285f4;
+		color: #fff;
+		border-radius: 1px;
+		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+		transition: background-color .218s, border-color .218s, box-shadow .218s;
+	}
+
+	.g-sign-in-button:hover {
+		cursor: pointer;
+		-webkit-box-shadow: 0 0 3px 3px rgba(66, 133, 244, 0.3);
+		box-shadow: 0 0 3px 3px rgba(66, 133, 244, 0.3);
+	}
+
+	.g-sign-in-button:active {
+		background-color: #3367D6;
+		transition: background-color 0.2s;
+	}
+
+	.g-sign-in-button .content-wrapper {
+		height: 100%;
+		width: 100%;
+		border: 1px solid transparent;
+	}
+
+	.g-sign-in-button img {
+		width: 18px;
+		height: 18px;
+	}
+
+	.g-sign-in-button .logo-wrapper {
+		padding: 15px;
+		background: #fff;
+		width: 48px;
+		height: 100%;
+		border-radius: 1px;
+		display: inline-block;
+	}
+
+	.g-sign-in-button .text-container {
+		font-family: Roboto,arial,sans-serif;
+		font-weight: 500;
+		letter-spacing: .21px;
+		font-size: 16px;
+		line-height: 48px;
+		vertical-align: top;
+		border: none;
+		display: inline-block;
+		text-align: center;
+		width: 180px;
+	}
+
+</style>
