@@ -3,9 +3,6 @@
       xmlns:fb="http://ogp.me/ns/fb#">
   <head>
     <title><%=typeof title == 'undefined' ? 'Starter Project' : title%></title>
-    <%if(!req.user){%>
-      <%- include ('./partials/google_tag_manager') %>
-    <%}%>
     <meta name="description" content="<%=typeof description == 'undefined' ? 'Starter Project' : description%>"/>
     <meta property="og:title" content="<%=typeof title == 'undefined' ? 'Starter Project' : title%>" />
     <meta property="og:description" content="<%=typeof description == 'undefined' ? 'Starter Project' : description%>" />

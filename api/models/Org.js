@@ -9,11 +9,6 @@ module.exports = {
 		name: {
 			type: 'string',
 		},
-		pan:{
-			type:'string',
-			allowNull:true,
-			unique: true,
-		},
 		description: { // some description about the organization
 			type: 'string',
 			allowNull:true
