@@ -1,32 +1,28 @@
-# Sailsjs starter project
-
+# Microlight
+![Logo](/assets/logo192.png)
 ## About
+airplane.dev had this ability to enable non technical folks to execute tasks which are defined in code. This was super useful. Schedule the task and the task runs like a cron with a visual interface to inspect. Each tasks return meaningful console log as well as user readable output. This because useful for things like upload and process an excel file periodically, option to restart production server etc. can now be done my a non-technical person with a clear SOP. The code or logic is still written by a technical person. 
 
-I have build so many services with sailsjs that I noticed myself installing sails and copying a number of files from previous projects. Sails allows you to configure it how ever you please, but I have notices time and again, I keep using these set of configurations again and again. 
+Airplane.dev has a ton of other features as well. They tried to make the platform no-code. This repo trys to replace Airplane.dev's super code features only. We are calling it "microlight" because like an real airplane, microlights can flight but microlight hardly have any other features or ability than fly. With microlight we have removed 90% of airplane features and retained on 10% of the feature that we actually liked. 
+
+### Microlight can do
+- Execution logic has to be written with code (will not no support no code ever)
+- Tasks can be executed by non techincal people from a GUI
+- Tasks can be scheduled 
+- Show console logs and execution output
+
+thats it
+
+### Microlight cannot and will not do
+- No code support
+- Multiple server or master/worker mode
+
+
+Microlight is designed as simple solution. This is not designed for massive scale. Intentionally Microlight does not support master/worker node. The Microlight server and the execution of task happens on the same machine. If you are looking for a multi node setup, then we recomment using rundeck. For most small startups, rundeck is an overkill. Scaling microlight can only be done by vertical scaling (increasing the size of the server). Microlight does not support horizontal scaling. 
+
 
 ## Installation
 ```shell
-degit https://github.com/alexjv89/sailsjs-boilerplate <app_name> 
+npm install 
+node app.js
 ```
-
-## Upgrade 
-This starter project is updated over time(version upgrades, bug fixes, new features etc.). Use degit to pull the latest code and choose to commit the changes you like to keep. 
-```shell
-degit https://github.com/alexjv89/sailsjs-boilerplate <app_name> --force
-```
-
-## More than sails
-The following configurations are chosen and reused. 
-- mailgun - for send email
-- postgres - for database
-- redis - for session storage and bull queue
-- bull queue - for queue operations
-
-this starter project comes with 
-- configs for logs
-- configs for email
-- configs for authentication and authorisation
-- configs for session managment
-
-
-Dont like this configuration, feel free to tweet it and save it as your preferred configurations while building micro services. 
