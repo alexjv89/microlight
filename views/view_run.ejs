@@ -74,8 +74,14 @@
 	            		<%-log.markdown%>
 	            	</div>
 	            	<%}else if(log.json){%>
-	            		<!-- <pre style="margin: 0px;"><%=log.text%></pre> -->
 	            		<pre class="json-renderer" style="padding:0px;margin:0px"><%=JSON.stringify(log.json,2,2)%></pre>
+	            	<%}else if(log.error){%>
+	            		<div class='ui error message'>
+	            			<h4><%-log.text%></h4>
+	            			<%if(log.text!=log.error){%>
+	            				<%-log.error%>
+	            			<%}%>
+	            		</div>
 	            	<%}else{%>
 	            		<pre style="margin: 0px;"><%=log.text%></pre>
 	            	<%}%>

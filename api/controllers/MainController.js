@@ -138,6 +138,13 @@ module.exports = {
 							json:obj,
 						})
 					},
+					error:function(e){
+						results.startRun.logs.push({
+							timestamp:new Date(),
+							text:e.toString(),
+							error:e,
+						})
+					},
 				}
 				var start_time=new Date();
 				var inputs = _.cloneDeep(req.body);
@@ -147,7 +154,7 @@ module.exports = {
 					var output = await task.config.fn(microlight,inputs);
 				}catch(e){
 					status = 'failed';
-					microlight.log(e.toString());
+					microlight.error(e.toString());
 				}
 				var end_time=new Date();
 				var update = {

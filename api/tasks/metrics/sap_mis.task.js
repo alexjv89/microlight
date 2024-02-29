@@ -39,6 +39,8 @@ module.exports = {
     ml.json(file);
     ml.json({name:'alex',city:'Bengaluru'});
     ml.log(id);
+    ml.error(new Error('sample error'));
+    ml.error(new Error('sample error in string').toString());
     ml.log(id2);
     return 'all done';
   }
