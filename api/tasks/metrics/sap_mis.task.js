@@ -30,6 +30,14 @@ module.exports = {
     ml.log('filename: '+file.fd)
     // ml.log(file);
     ml.log(JSON.stringify(file,2,2));
+    ml.markdown(`#### About uploaded file:
+      - **File name:** 02. Production MIS With Value (India)_32_5305746647329959689.xlsx
+      - **Date:** 2024-02-25
+      - **location:** india
+      - **Contains sheets:** Summary, Detail, WIP, RM, CONSUMABLE, SPARE, RM Purchase, CONSUMABLE Purchase, SPARE Purchase
+    `)
+    ml.json(file);
+    ml.json({name:'alex',city:'Bengaluru'});
     ml.log(id);
     ml.log(id2);
     return 'all done';

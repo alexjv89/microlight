@@ -121,7 +121,23 @@ module.exports = {
 							text:text
 						})
 					},
-					req:req,
+					markdown:function(content){
+						var dedent = require('dedent');
+						var markdownit = require('markdown-it');
+						const md = markdownit();
+						results.startRun.logs.push({
+							timestamp:new Date(),
+							text:dedent(content),
+							markdown:md.render(dedent(content)),
+						})
+					},
+					json:function(obj){
+						results.startRun.logs.push({
+							timestamp:new Date(),
+							text:JSON.stringify(obj,2,2),
+							json:obj,
+						})
+					},
 				}
 				var start_time=new Date();
 				var inputs = _.cloneDeep(req.body);

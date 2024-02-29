@@ -69,7 +69,16 @@
 	        <tr>
 	            <td class='single line top aligned'><%=log.timestamp.substring(11,19)%></td>
 	            <td >
-	            	<pre style="margin: 0px;"><%=log.text%></pre>
+	            	<%if(log.markdown){%>
+	            	<div class='ui info message'>
+	            		<%-log.markdown%>
+	            	</div>
+	            	<%}else if(log.json){%>
+	            		<!-- <pre style="margin: 0px;"><%=log.text%></pre> -->
+	            		<pre class="json-renderer" style="padding:0px;margin:0px"><%=JSON.stringify(log.json,2,2)%></pre>
+	            	<%}else{%>
+	            		<pre style="margin: 0px;"><%=log.text%></pre>
+	            	<%}%>
 	            </td>
 	        </tr>
 	        <%})%>
@@ -77,3 +86,15 @@
 	</table> 
 	</div>
 </div>
+<script type="text/javascript">
+	$('document').ready(function(){
+		$('pre.json-renderer').each(function(i){
+			console.log('hi');
+			console.log();
+			var data = $($('pre.json-renderer')[i]).text();
+			$($('pre.json-renderer')[i]).jsonViewer(JSON.parse(data),{collapsed:true,rootCollapsable:false});
+		});
+		// console.log(data);
+    	// $('#json-renderer').jsonViewer(JSON.parse(data),{collapsed:true,rootCollapsable:false});
+	})
+</script>
