@@ -1,7 +1,6 @@
 {
   "name": "@alexjv89/microlight",
-  "private": false,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Simple task runner for small teams",
   "keywords": [],
   "dependencies": {
@@ -100,7 +99,7 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/alexjv89/microlight.git"
+    "url": "git+https://github.com/alexjv89/microlight.git"
   },
   "author": "alex",
   "license": "ISC",
@@ -110,5 +109,5 @@
   "bugs": {
     "url": "https://github.com/alexjv89/microlight/issues"
   },
-  "homepage": "https://github.com/alex/mralbert#readme"
+  "homepage": "https://github.com/alexjv89/microlight#readme"
 }
