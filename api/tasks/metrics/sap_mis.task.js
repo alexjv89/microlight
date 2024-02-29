@@ -1,14 +1,15 @@
 module.exports = {
 
-  slug:'sap_mis',
-  name: 'SAP MIS',
+  slug:'sap_mis1',
+  name: 'SAP MIS1',
   description: 'Hello something.',
   inputs: {
-    // filename: {
-    //   description: 'filename of the excel file',
-    //   type: 'string',
-    //   required:true
-    // }
+    file: {
+      name: "SAP MIS Report",
+      description: "Upload Daily SAP MIS Report",
+      type: 'file',
+      required:true
+    },
     id:{
       name:'MD version no',
       description:'ID of the master data version',
@@ -23,14 +24,14 @@ module.exports = {
       required:false
     }
   },
-  fn: async function (microlight,{id,id2}) {
-    microlight.log('\n\n\n\n\n=====================');
-    for(var i=0;i<10000;i++){
-      microlight.log('yo');
-    }
-    microlight.log('looks like everything is done');
-    microlight.log(id);
-    microlight.log(id2);
+  fn: async function (ml,{file,id,id2}) {
+    ml.log('\n\n\n\n\n=====================');
+    ml.log('looks like everything is done');
+    ml.log('filename: '+file.fd)
+    // ml.log(file);
+    ml.log(JSON.stringify(file,2,2));
+    ml.log(id);
+    ml.log(id2);
     return 'all done';
   }
 };

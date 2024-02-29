@@ -77,29 +77,76 @@ module.exports = {
 				task = t;
 		})
 		console.log(task);
-		var run = await Run.create({
-			task:req.params.slug,
-			status:'running',
-			user:req?.user?.id,
-			logs:[],
-			activities:[],
-		}).fetch();
-		var microlight={
-			log:function(text){
-				run.logs.push({
-					timestamp:new Date(),
-					text:text
+		async.auto({
+			startRun:async function(){
+				return await Run.create({
+					task:req.params.slug,
+					status:'running',
+					user:req?.user?.id,
+					logs:[],
+					activities:[],
+				}).fetch();		
+			},
+			// upload files if any
+			uploadFiles:function(cb){
+				var file_inputs = [];
+				// figure out inputs that are files
+				Object.keys(task.config.inputs).forEach(function(input){
+					if(task.config.inputs[input].type=='file')
+						file_inputs.push(input);
 				})
-			}
-		}
-		var results = await task.config.fn(microlight,req.body);
-		var update = {
-			status:'succeeded',
-			logs:run.logs,
-			activities:[]
-		}
-		await Run.updateOne({id:run.id},update);
-		console.log(results);
-		res.redirect(`/task/${req.params.slug}/run/${run.id}`);
+				// upload all the files
+				async.eachLimit(file_inputs,1,function(input,next){
+					req.file(input).upload(function (err, uploadedFiles) {
+						if (err) return cb(err);
+						if(uploadedFiles.length)
+							req.body[input]=uploadedFiles[0];
+						cb(null)
+					});
+				},cb)
+				// const fileStream = fs.createWriteStream(`./tmp/test.xlsx`);
+				// await new Promise((resolve, reject) => {
+				//   res.body.pipe(fileStream);
+				//   res.body.on("error", reject);
+				//   fileStream.on("finish", resolve);
+				// });
+				
+			},
+			runTask:['startRun','uploadFiles',async function(results){
+				// var logs=[]
+				var microlight={
+					log:function(text){
+						results.startRun.logs.push({
+							timestamp:new Date(),
+							text:text
+						})
+					},
+					req:req,
+				}
+				var start_time=new Date();
+				var inputs = _.cloneDeep(req.body);
+				inputs.uploadFiles=results.uploadFiles;
+				var status = 'succeeded';
+				try{
+					var output = await task.config.fn(microlight,inputs);
+				}catch(e){
+					status = 'failed';
+					microlight.log(e.toString());
+				}
+				var end_time=new Date();
+				var update = {
+					status:status,
+					logs:_.cloneDeep(results.startRun.logs),
+					activities:[],
+					duration:(end_time-start_time)/1000,
+					output:output
+				}
+				// update the task
+				await Run.updateOne({id:results.startRun.id},update);
+			}],
+		},function(err,results){
+			console.log(results);
+			res.redirect(`/task/${req.params.slug}/run/${results.startRun.id}`);
+		})
 	}
 }

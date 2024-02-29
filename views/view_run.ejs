@@ -57,58 +57,21 @@
 	<div class="ui divider"></div>
 
 	<h3>Logs:</h3>
-	<%run.logs.forEach(function(log){%>
+	<!-- <%run.logs.forEach(function(log){%>
         <span style="color: #aaaaaa;"><%=log.timestamp%>:</span> <%=log.text%><br>
-    <%})%>
-	<!-- <table class="ui celled unstackable collapsing table">
+    <%})%> -->
+	<div class='ui segment'>
+		
+	
+	<table class="ui very basic compact unstackable table">
 	    <tbody>
 			<%run.logs.forEach(function(log){%>
 	        <tr>
-	            <td><%=log.timestamp%></td>
-	            <td><%=log.text%></td>
+	            <td class='single line top aligned'><%=log.timestamp.substring(11,19)%></td>
+	            <td><pre style="margin: 0px;"><%=log.text%></pre></td>
 	        </tr>
 	        <%})%>
 	    </tbody>
-	</table> -->
-	<!-- <pre><%=JSON.stringify(run.logs,2,2)%></pre> -->
-
-	<!-- 
-	<h3>Activity</h3>
-	<div class='ui grid'>
-		<div class='one wide column'>
-			<div class='ui basic right aligned segment'>
-				<div class="label">
-					<i class="big grey circle user icon"></i>
-				</div>
-			</div>
-		</div>
-		<div class='fifteen wide column'>
-			<div><b>Run started:</b></div>
-			<span class='description'>Created At: <%=run.createdAt%> by Alex</span>
-			<div class='ui segment'>
-				this is a segment
-			</div>
-		</div>
-
-		<div class='one wide column'>
-			<div class='ui basic right aligned segment'>
-				<div class="label">
-					<i class="big grey sticky note icon"></i>
-				</div>
-			</div> 
-		</div>
-		
-		<div class='fifteen wide column'>
-			<div class='ui segment'>
-				About uploaded file:<br>
-				File name: 02. Production MIS With Value (India)_32_5305746647329959689.xlsx<br>
-				Date: 2024-02-25<br>
-				location: india<br>
-				Contains sheets: Summary, Detail, WIP, RM, CONSUMABLE, SPARE, RM Purchase, CONSUMABLE Purchase, SPARE Purchase
-			</div>
-		</div> 
-		
-		
-	</div> -->
-	
+	</table> 
+	</div>
 </div>

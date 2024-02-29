@@ -40,7 +40,7 @@
 	</h1>
 	<div class='ui segment'>
 		<!-- <pre><%=JSON.stringify(task,2,2)%></pre> -->
-		<form action="/task/<%=req.params.slug%>/execute" method="post" class='ui <%-req.query.error?"req.query.error":""%> form'>
+		<form action="/task/<%=req.params.slug%>/execute" method="post" class='ui <%-req.query.error?"req.query.error":""%> form' enctype="multipart/form-data">
 			<div class="ui error message">
 				<div class="header">Please correct error in form</div>
 				<p><%-req.query.error%></p>
