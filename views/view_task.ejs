@@ -70,8 +70,8 @@
 	        <tr>
 	            <td><%=run.createdAt.toISOString()%></td>
 	            <td><a href='/task/<%=run.task%>/run/<%=run.id%>'><%=run.task%> #<%=run.id%></a></td>
-	            <td><%=run.status%></td>
-	            <td><%=run.duration%></td>
+	            <td class="<%=run.status=='succeeded'?'positive':(run.status=='failed'?'negative':'warning')%>"><%=run.status%></td>
+	            <td class='right aligned'><%=run?.duration?.toFixed(1)%>s</td>
 	            <td><%=run.by%></td>
 	            <td><%=run?.user?.name%></td>
 	        </tr>

@@ -49,8 +49,8 @@
 	    	    <td><b>Duration</b></td>
 	    	</tr>
 	        <tr>
-	            <td><%=run.status%></td>
-	            <td><%=run.duration%>s</td>
+	            <td class="<%=run.status=='succeeded'?'positive':(run.status=='failed'?'negative':'warning')%>"><%=run.status%></td>
+	            <td class='right aligned'><%=run?.duration%>s</td>
 	        </tr>
 	    </tbody>
 	</table>
