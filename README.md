@@ -21,8 +21,26 @@ thats it
 Microlight is designed as simple solution. This is not designed for massive scale. Intentionally Microlight does not support master/worker node. The Microlight server and the execution of task happens on the same machine. If you are looking for a multi node setup, then we recomment using rundeck. For most small startups, rundeck is an overkill. Scaling microlight can only be done by vertical scaling (increasing the size of the server). Microlight does not support horizontal scaling. 
 
 
-## Installation
+## Setup
+
+### Install package
 ```shell
-npm install 
-node app.js
+npm install @alexjv89/microlight --save
+```
+
+### Setup config
+```shell
+mkdir .microlight
+touch .microlight/config.js
+```
+The content of the file `.microlight/config.js` should be: 
+```js
+module.exports={
+	tasks_folder:'tasks', // change this to load tasks from a different folder
+}
+```
+
+### Start server
+```shell
+node node node_modules/@alexjv89/microlight/app.js
 ```
