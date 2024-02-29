@@ -154,7 +154,7 @@ module.exports = {
 					var output = await task.config.fn(microlight,inputs);
 				}catch(e){
 					status = 'failed';
-					microlight.error(e.toString());
+					microlight.error(e);
 				}
 				var end_time=new Date();
 				var update = {
