@@ -32,7 +32,7 @@ module.exports = {
 	viewTask:function(req,res){
 		async.auto({
 			getRuns:async function(){
-				return await Run.find({id:req.params.r_id}).sort('createdAt DESC');
+				return await Run.find({task:req.params.slug}).sort('createdAt DESC');
 			}
 		},function(err,results){
 			if(err)
