@@ -30,10 +30,10 @@ module.exports = {
   datastores: {
     default: {
       adapter: 'sails-postgresql',
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER, // optional
-      password: process.env.DB_PASSWORD, // optional
-      database: process.env.DB_DATABASE, //optional
+      host: process.env.ML_DB_HOST,
+      user: process.env.ML_DB_USER, // optional
+      password: process.env.ML_DB_PASSWORD, // optional
+      database: process.env.ML_DB_DATABASE, //optional
       ssl: true
     }
   },
