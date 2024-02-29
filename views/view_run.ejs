@@ -79,11 +79,11 @@
 	            		<div class='ui error message'>
 	            			<h4><%-log.text%></h4>
 	            			<%if(log.text!=log.error){%>
-	            				<%-log.error%>
+	            				<pre style="margin-top: 0px;"><%-log.error%></pre>
 	            			<%}%>
 	            		</div>
 	            	<%}else{%>
-	            		<pre style="margin: 0px;"><%=log.text%></pre>
+	            		<pre><%=log.text%></pre>
 	            	<%}%>
 	            </td>
 	        </tr>
