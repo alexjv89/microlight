@@ -63,12 +63,14 @@
 	<div class='ui segment'>
 		
 	
-	<table class="ui very basic compact unstackable table">
+	<table class="ui very basic compact unstackable table" style="display: block;overflow: auto;">
 	    <tbody>
 			<%run.logs.forEach(function(log){%>
 	        <tr>
 	            <td class='single line top aligned'><%=log.timestamp.substring(11,19)%></td>
-	            <td><pre style="margin: 0px;"><%=log.text%></pre></td>
+	            <td >
+	            	<pre style="margin: 0px;"><%=log.text%></pre>
+	            </td>
 	        </tr>
 	        <%})%>
 	    </tbody>
