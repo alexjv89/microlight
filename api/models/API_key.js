@@ -19,10 +19,6 @@
 		expires_at: { // set optional expiry date
 			type: 'ref',
 			columnType: 'timestamptz'
-		},
-		org:{
-			model:'org',
-			required:true
 		}
 	},
 	customToJSON: function() {

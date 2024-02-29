@@ -1,0 +1,103 @@
+<%
+	// req_path.replace('/library/','').split('/');
+	var req_path = req.path;
+	if(req_path=='/library')
+		req_path='/library/';
+	var folder_path=req_path.replace('/library/','').split('/');
+	var folder ={
+		tree:sails.config.library,
+		config:{
+			name:'Library'
+		}
+	};
+	var path = 'api/tasks';
+	folder_path.forEach(function(f,i){
+
+		path+='/'+f;
+		console.log(path);
+		folder.tree.forEach(function(item){
+			if(item.type=='folder' && item.path==path)
+				folder=item;
+		})
+		console.log(i);
+	})
+%>
+<div class='ui basic segment container'>
+	<div class=''>
+		
+	</div>
+	<div class="ui breadcrumb">
+		<a class="section" href='/library'>Library</a>
+		<% var path = '/library'%>
+		<%folder_path.forEach(function(folder){%>
+		<% path +='/'+folder%>
+		<i class="right angle icon divider"></i>
+		<a class="section" href='<%=path%>'><%=folder%></a>
+		<%})%>
+		<!-- <i class="right angle icon divider"></i>
+		<div class="section"><%=folder.config.name%></div> -->
+	</div>
+	<h1 style='margin-top:0;'>
+		<span style='opacity: 0.5;'>Folder: </span><span data-content="<%=folder.config.name%>"><%= folder.config?.name?.length > 47 ? folder.config?.name?.substring(0, 47) + '...' : folder.config.name %></span>
+
+		
+		<div class="ui compact basic icon button right floated dropdown">
+			<i class="middle aligned ellipsis vertical icon" style="margin-left: 4px;"></i>
+			<div class="menu" style="margin-top: 4px;">
+				<div class="item" id="edit_modal">
+					<i class="edit icon"></i> Edit
+				</div>
+			</div>
+		</div>
+		<% if (folder.gsheet_url) { %>
+			<a class="ui green compact button right floated" href='<%=folder.gsheet_url%>' target='_blank'>
+				<i class="file excel icon"></i> 
+				Open Google Sheets
+			</a>
+		 <% } %>
+		
+	</h1>
+	<table class="ui very basic table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Tasks</th>
+			</tr>
+		</thead>
+		<tbody>
+			<%folder.tree.forEach(function(item){%>
+			<%if(item.type=='folder'){%>
+			<tr>
+				<td>
+					<a href="/library/<%=item.path.replace('api/tasks/','')%>"> <i class="grey folder outline icon"></i> <%=item.config.name||item.file%></a>
+				</td>
+				<td><%=item?.config?.description%></td>
+				<td><%=item.tasks%></td>
+				
+			</tr>
+			<%}else if(item.type=='task'){%>
+			<tr>
+				<td>
+					<a href='/task/<%=item.config.slug%>'><i class="violet paper plane icon"></i> <%=item.config.name||item.file%></a>
+				</td>
+				<td><%=item?.config?.description%></td>
+				<td><%=item.tasks%></td>
+				
+			</tr>
+			<%}%>
+			<%})%>
+		</tbody>
+	</table>
+</div>
+<!-- 
+<h3>Folder:</h3>
+<pre><%=JSON.stringify(folder,2,2)%></pre>
+<br>
+<%=req_path%>
+
+Folder: <%=req.params.folder%>
+<br>
+<h3>sails.config.library:</h3>
+<pre><%=JSON.stringify(sails.config.library,2,2)%></pre> -->
+<!-- <pre><%=JSON.stringify(tree,2,2)%></pre> -->

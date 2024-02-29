@@ -227,44 +227,4 @@ module.exports={
 			res.view('mainsettings/usage',locals)
 		})
 	},
-	getOrg:function(req,res){
-		async.auto({
-			getOrg:async function(){
-				return await Org.findOne({ where: {id: req.params.o_id }})
-			},
-		},function(err,results){
-			if(err)
-				res.send(err)
-			var moment = require('moment')
-			var locals={
-				org:results.getOrg,
-				moment:moment
-			}
-			res.view('mainsettings/get_org', locals)
-		})
-	},
-	editOrg:function(req,res){
-		async.auto({
-			getOrg:async function(){
-				var org_id = req.params.o_id
-				return await Org.updateOne({ where: {id: org_id }},{name:req.body.name})
-			},
-		},function(err,results){
-			if(err)
-				return res.handleError(err);
-			return res.redirect(`/org/${req.org.id}/settings/general`);
-		})
-	},
-	deleteOrg:function(req,res){
-		async.auto({
-			getOrg:async function(){
-				var org_id = req.params.o_id
-				// return await Org.destroyOneOne({ where: {id: org_id }})
-			},
-		},function(err,results){
-			if(err)
-				return res.handleError(err);
-			return res.redirect('/orgs');
-		})
-	},
 }

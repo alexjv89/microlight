@@ -28,50 +28,78 @@ module.exports = {
 		}
 		res.redirect('/login');
 	},
-	selectOrg:function(req,res){
+	
+	viewTask:function(req,res){
 		async.auto({
-			getAllMemberships:function(callback){
-				Member.find({user:req.user.id}).populate('org').exec(callback);
-			},
+			getRuns:async function(){
+				return await Run.find({id:req.params.r_id}).sort('createdAt DESC');
+			}
 		},function(err,results){
 			if(err)
-				return res.handleError(err);
-
+				throw err;
 			var locals={
-				title:'Select Org',
-				memberships:results.getAllMemberships,
+				runs:results.getRuns
 			}
-			res.view('select_org',locals);	
-		});
+			res.view('view_task',locals);
+		})
 	},
-	createOrg:function(req,res){
+	viewRun:function(req,res){
+		async.auto({
+			getRun:async function(){
+				return await Run.findOne({id:req.params.r_id});
+			}
+		},function(err,results){
+			if(err)
+				throw err;
+			var locals={
+				run:results.getRun
+			}
+			res.view('view_run',locals);
+		})
+	},
+	viewFolder:function(req,res){
+		
+		var tree = sails.config.library;
+
 		var locals={
-			org:{},
-			message:'',
-		};
-		if(req.body){
-			console.log(req.body);
-			// create firm
-			// add this user as the client
-			async.auto({
-				createOrg:function(callback){
-					Org.create(req.body).fetch().exec(callback);
-				},
-				createMembershipForUser:['createOrg',function(results,callback){
-					var member={
-						type:'albert_agent',
-						user:req.user.id,
-						org:results.createOrg.id,
-					}
-					Member.create(member).exec(callback);
-				}]
-			},function(err,results){
-				if (err)
-					throw err;
-				res.redirect(`/org/${results.createOrg.id}`);
-			})
-		}else{
-			res.view('org/create_org',locals);
-		}	
+			title:'Library',
+			tree,
+		}
+		res.view('view_folder',locals);	
 	},
+	executeTask:async function(req,res){
+		console.log(req.body);
+		console.log(req.params.slug);
+		var task = {};
+
+		sails.config.tasks.forEach(function(t){
+			if(t.config.slug==req.params.slug)
+				task = t;
+		})
+		console.log(task);
+		var run = await Run.create({
+			task:req.params.slug,
+			status:'running',
+			user:req?.user?.id,
+			logs:[],
+			activities:[],
+		}).fetch();
+		var microlight={
+			log:function(text){
+				run.logs.push({
+					timestamp:new Date(),
+					text:text
+				})
+			}
+		}
+		var results = await task.config.fn(microlight,req.body);
+		var update = {
+			status:'succeeded',
+			logs:run.logs,
+			activities:[]
+		}
+		await Run.updateOne({id:run.id},update);
+		console.log(results);
+		res.redirect(`/task/${req.params.slug}/run/${run.id}`);
+	}
 }

@@ -9,10 +9,6 @@ module.exports = {
 		user:{
 			model:'user',
 			required:true
-		},
-		org: {
-			model: 'org',
-			required: true
-		},
+		}
 	},
 }

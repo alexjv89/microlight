@@ -31,19 +31,15 @@ var routes = {
 		"POST /verify_email": "AuthController.verifyEmail", // Send email 
 	},
 	main:{
-		"GET /orgs": "MainController.selectOrg",
-		"GET /org/create": "MainController.createOrg",
-		"POST /org/create": "MainController.createOrg",
 		"GET /": "MainController.landingPage",
+		"GET /library*": "MainController.viewFolder",
+		"GET /task/:slug": "MainController.viewTask",
+		"POST /task/:slug/execute": "MainController.executeTask",
+		"GET /task/:slug/run/:r_id": "MainController.viewRun",
 	},
 	admin:{
 		// Admin functionalities
 		"GET /admin": "AdminController.adminLanding",
-		"GET /admin/orgs": "AdminController.listOrgs",
-		"GET /admin/org/create": "AdminController.createOrg",
-		"POST /admin/org/create": "AdminController.createOrg",
-		"POST /admin/membership/create": "AdminController.createMembership",
-		"DELETE /admin/membership/delete": "AdminController.revokeMembership",
 		"GET /admin/users": "AdminController.listUsers",
 		"GET /admin/user/create": "AdminController.createUser",
 		"POST /admin/user/create": "AdminController.createUser",
@@ -56,7 +52,6 @@ var routes = {
 		"GET /admin/jobs/restart": "AdminController.restartRepeatJobs",
 		"POST /admin/jobs/restart": "AdminController.restartRepeatJobs",
 
-		"GET /admin/health_check/rundeck": "AdminController.rundeckCheck",
 		"GET /admin/health_check/database": "AdminController.dbCheck",
 		
 		// "POST /admin/system_checks/update": "AdminController.updateSystemChecks",
@@ -64,9 +59,7 @@ var routes = {
 	org_settings:{
 		"GET /org/:o_id/usage":"SettingsController.usage",
 
-		"GET /org/:o_id/settings/general":"SettingsController.getOrg",
-		"POST /org/:o_id/edit": "SettingsController.editOrg",
-		"GET /org/:o_id/delete": "SettingsController.deleteOrg",
+		
 		
 		"GET /org/:o_id/settings":"SettingsController.general",
 		"POST /org/:o_id/settings":"SettingsController.general",

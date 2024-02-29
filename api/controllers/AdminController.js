@@ -26,66 +26,8 @@ module.exports={
 		var locals={title:'Admin'};
 		res.view('admin/landing_page',locals);
 	},
-	listOrgs:function(req,res){
-		var locals={};
-		async.auto({
-			getAllOrgs:function(callback){
-				Org.find({}).sort('createdAt DESC').populate('members').exec(callback);
-			},
-			getMembership:function(callback){
-				Member.find({user:req.user.id}).exec(callback);
-			}
-		},function(err,results){
-			results.getAllOrgs.forEach(function(org){
-				org.is_member=false;
-				results.getMembership.forEach(function(m){
-					if(m.org==org.id && m.user==req.user.id)
-						org.is_member=true;
-				})
-			})
-			var locals={
-				orgs:results.getAllOrgs,
-				memberships:results.getMembership,
-			}
-
-			// locals.orgs.forEach(function(firm){
-			// 	firm.mrr=0;
-			// 	firm.gstins.forEach(function(gstin){
-			// 		firm.mrr+=gstin.mrr;
-			// 	});
-			// })
-			res.view('admin/list_orgs',locals);
-		})
-	},
-	createOrg:function(req,res){
-		var locals={
-			org:{},
-		};
-		if(req.body){
-			console.log(req.body);
-			// create firm
-			// add this user as the client
-			async.auto({
-				createOrg:function(callback){
-					Org.create(req.body).fetch().exec(callback);
-				},
-				createMembershipForUser:['createOrg',function(results,callback){
-					var member={
-						type:'albert_agent',
-						user:req.user.id,
-						org:results.createOrg.id,
-					}
-					Member.create(member).exec(callback);
-				}]
-			},function(err,results){
-				if (err)
-					throw err;
-				res.redirect('/admin/orgs');
-			})
-		}else{
-			res.view('admin/create_org',locals);
-		}	
-	},
+	
+	
 	
 	ignoreEmail:function(req,res){
 		var now = new Date();
@@ -285,65 +227,6 @@ module.exports={
 			res.send(response);
 		})
 	},
-	// this is used to add yourself as a member to any org. This can only be done by an admin user
-	createMembership:function(req,res){
-		async.auto({
-			createMembership:async function(){
-				var member={
-					type:req.body.type,
-					user:req.body.user_id,
-					org:req.body.org_id,
-				}
-				return await Member.create(member).fetch();
-				
-			},
-			
-			findUser:['createMembership',async function(results){
-				var user = await User.findOne({ where: {id: results.createMembership.user }, })
-				return user
-			}],
-			findOrg:['createMembership',async function(results){
-				var org = await Org.findOne({ where: {id: results.createMembership.org }, })
-				return org
-			}],	
-			sendMail:['createMembership','findUser','findOrg', function(results, cb){
-				var url = sails.config.app_url + '/org/'+ req.body.org_id;
-				var opts={
-					template:'add_user_to_org',
-					to:results.findUser.email,
-					from:'Cashflowy<no-reply@cashflowy.io>',
-					subject: 'Add user to org',
-					locals:{
-						user: results.findUser,
-						org:results.findOrg,
-						url:url
-					}
-				}
-				MailgunService.sendEmail(opts,function(err){
-					cb(err)
-				})
-			}]
-			
-		},function(err,results){
-			if(err)
-				return res.handleError(err);
-			res.send({success:'success'})
-		});
-	},
-	revokeMembership:function(req,res){
-		async.auto({
-			revokeMembership:async function(){
-				var filter = {
-					org:req.body.org_id,
-					user:req.body.user_id
-				}
-				return await Member.destroyOne(filter);
-			}
-		},function(err,results){
-			if(err)
-				return res.handleError(err);
-			res.send({success:'success'})
-		})
-		
-	},
+	
+	
 }

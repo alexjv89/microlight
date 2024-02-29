@@ -15,12 +15,12 @@ module.exports = {
 	
 	login: function(req, res) {
 		if(req.user)
-			return res.redirect('/orgs');
+			return res.redirect('/library');
 		var locals={
 			error:false,
 			email:''
 		}
-		var redirect='/orgs';
+		var redirect='/library';
 		if(req.query.redirect && req.query.redirect!='undefined')
 			redirect = decodeURIComponent(req.query.redirect);
 		if(req.body){
@@ -64,7 +64,7 @@ module.exports = {
 	},
 	googleAuthUrlRedirect: (req,res)=>{
 		if(req.user)
-			return res.redirect('/orgs');
+			return res.redirect('/library');
 		passport.authenticate('google', { scope:[ 'email', 'profile' ] })(req, res);
 	},
 	googleCallback: (req,res)=>{
@@ -240,7 +240,7 @@ module.exports = {
 
 	view_reset: function(req, res){
 		if(req.user)
-			return res.redirect('/orgs');
+			return res.redirect('/library');
 		var token =  req.query.token;
 
 		if (!token) return res.view('auth/reset', {
@@ -386,7 +386,7 @@ module.exports = {
 
 	setPassword: function (req, res) {
 		if(req.user)
-			return res.redirect('/orgs');
+			return res.redirect('/library');
 		var token =  req.query.token;
 
 		if (!token) return res.view('auth/set_password', {
