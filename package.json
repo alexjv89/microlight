@@ -1,8 +1,8 @@
 {
-  "name": "microlight",
-  "private": true,
+  "name": "@alexjv89/microlight",
+  "private": false,
   "version": "0.0.0",
-  "description": "a Sails application",
+  "description": "Simple task runner for small teams",
   "keywords": [],
   "dependencies": {
     "@sailshq/connect-redis": "^3.2.1",
@@ -75,8 +75,8 @@
     "util": "^0.12.2"
   },
   "scripts": {
-    "storybook":"node .storybook/index.js",
-    "storybook:update":"degit github:alexjv89/storybook-ejs .storybook --force",
+    "storybook": "node .storybook/index.js",
+    "storybook:update": "degit github:alexjv89/storybook-ejs .storybook --force",
     "start": "NODE_ENV=production node app.js",
     "cypress:open": "npx cypress open",
     "cypress:run": "npx cypress run",
@@ -100,11 +100,15 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/alex/mralbert.git"
+    "url": "git://github.com/alexjv89/microlight.git"
   },
   "author": "alex",
-  "license": "",
+  "license": "ISC",
   "engines": {
     "node": "^14.15"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/alexjv89/microlight/issues"
+  },
+  "homepage": "https://github.com/alex/mralbert#readme"
 }
