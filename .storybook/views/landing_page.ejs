@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:fb="http://ogp.me/ns/fb#">
+  <head>
+    <title>Stories</title>
+    
+    <link rel="stylesheet" href="fomantic/fomantic.min.css">
+    <script src="jquery.min.js"></script>
+    <script src="fomantic/fomantic.min.js"></script>
+    <script src="json-viewer/jquery.json-viewer.js"></script>
+    <link href="json-viewer/jquery.json-viewer.css" type="text/css" rel="stylesheet">    
+  </head>
+  <body >
+    
+    
+    <div class="ui grid">
+      <!-- Definition of the nav bar when seen on a computer -->
+      <div class="ui sixteen wide column tablet computer only">
+        <div class="ui secondary  pointing large menu" id="navbar_menu" >
+          <!-- <div class="ui container" > -->
+          <a class="item home header" href="/">
+            Storybook-EJS
+          </a>
+          <div class="right menu">        
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Main body -->
+    <div class='ui basic segment'>
+      <div class='ui grid'>
+        <div class='three wide column'>
+          <div class='ui segment'>
+            <div class="ui styled accordion">
+              <% app.config.components.forEach(function(c){ %>
+                <div class="<%-c.slug==component?'active':''%> title">
+                  <i class="dropdown icon"></i>
+                  <%=c?.name%>
+                </div>
+                <div class="<%-c.slug==component?'active':''%> content">
+                  
+                  <div class="ui secondary vertical menu">
+                    <%c?.stories?.forEach(function(story){%>
+                    <a class="item" href='/?component=<%=c?.slug%>&story=<%=story.slug%>'>
+                      <%=story.name%>
+                    </a>
+                    <%})%>
+                  </div>
+                </div>
+              <%})%>
+              <%if(!app.config.components.length){%>
+                <div class="active title">
+                  <i class="dropdown icon"></i>
+                  No components yet
+                </div>
+                <div class="active content">
+                  Nothing to show.
+                </div>
+              <%}%>
+            </div>
+          </div>
+        </div>
+        <div class='thirteen wide column'>
+          <%
+            var tab ='component';
+          %>
+          <div class="ui pointing secondary menu">
+            <a class="<%=tab=='component'?'active':''%> item" data-tab="component">Component</a>
+            <a class="<%=tab=='props'?'active':''%> item" data-tab="props">Props</a>
+            <a class="<%=tab=='docs'?'active':''%> item" data-tab="docs">Docs</a>
+          
+          </div>
+          <div class="ui <%=tab=='component'?'active':''%> tab" data-tab="component">
+            <% if(!app.config.components.length){ %>
+              <div class='ui success message'>
+                <div class="content">
+                  <div class="header">
+                    Welcome to storybook
+                  </div>
+                  <p>Use this to build, document, test your ejs components.</p>
+                  <p>Usage instructions:</p>
+                  <ul>
+                    <li>Create __.stories.js with the same file name as your ejs file.</li>
+                  </ul>
+                  <p>Create your first component and this message will disappear</p>
+                  <p>Thank you</p>
+                </div>
+              </div>
+            <%}%>
+            <div class='ui segment' style="min-height:800px;">
+              <iframe src="/embed?component=<%=component%>&story=<%=story%>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 850px;"></iframe>
+            </div>
+          </div>
+          <div class="ui <%=tab=='props'?'active':''%> tab" data-tab="props" > 
+            
+            <div class='ui segment' style="overflow: auto;">
+              <pre id="json-renderer"><%=JSON.stringify(props,2,2)%></pre>
+              <!-- <pre id></pre>   -->
+            </div>
+
+          </div>
+          <div class="ui <%=tab=='docs'?'active':''%> tab" data-tab="docs">
+            <div class='ui top attached teal segment'>
+              <h3>Component docs</h3>
+            </div>
+            <div class='ui bottom attached  segment'>
+              <%-docs.component%>
+            </div>
+
+            <div class='ui top attached teal segment'>
+              <h3>Story docs</h3>
+            </div>
+            <div class='ui bottom attached segment'>
+              <%-docs.story%>
+            </div>
+          </div>
+          
+          
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.ui.accordion').accordion();
+    var url = window.location.pathname+window.location.search;
+    $('a.item[href="'+url+'"]').addClass('active');
+    $('.secondary.menu .item').tab({
+      onLoad:function(t){
+        // var base_url='/';
+        console.log(t);
+        // history.replaceState(t, t, base_url+'/'+t);
+      }
+    });
+    var data = $('pre#json-renderer').text();
+    $('#json-renderer').jsonViewer(JSON.parse(data),{collapsed:true,rootCollapsable:false});
+  })
+</script>

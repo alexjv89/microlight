@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:fb="http://ogp.me/ns/fb#">
+  <head>
+    <title>View component</title>
+    
+    <link rel="stylesheet" href="fomantic/fomantic.min.css">
+    <script src="jquery.min.js"></script>
+    <script src="fomantic/fomantic.min.js"></script>
+    <script src="json-viewer/jquery.json-viewer.js"></script>
+    <link href="json-viewer/jquery.json-viewer.css" type="text/css" rel="stylesheet">    
+  </head>
+
+  <body >
+    
+    
+    <div class='ui basic segment'>
+      <%- include (`../../views/${component?.template}`,story.args) %>
+    </div>
+
+  </body>
+</html>
