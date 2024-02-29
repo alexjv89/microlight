@@ -1,5 +1,6 @@
 const fs = require('fs');
-var project_folder=process.cwd().replace('/node_modules/@alexjv89/microlight','');
+// var project_folder=process.cwd().replace('/node_modules/@alexjv89/microlight','');
+var project_folder=process.cwd().replace('/.microlight','');
 // Recursive function to get files
 function getFiles(dir, tree=[]) {
 	var tree=[];
@@ -42,7 +43,7 @@ module.exports=function(callback){
 	// console.log(process.cwd());
 	
 	// console.log('project_folder',project_folder);
-	sails.config.microlight=require(project_folder+'/.microlight/config.js');
+	sails.config.microlight=require(project_folder+'/microlight.config.js');
 	sails.config.microlight.project_folder=project_folder;
 	// console.log(sails.config.microlight);
 	if(!sails.config.microlight.task_folder)

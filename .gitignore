@@ -132,3 +132,6 @@ lib-cov
 *.out
 *.pid
 .env
+
+
+microlight.config.js

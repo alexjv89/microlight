@@ -26,10 +26,10 @@
 // > Note: This is not required in order to lift, but it is a convenient default.
 require('dotenv').config();
 var fs = require('fs');
-if (fs.existsSync('.microlight/config.js')){
+if (fs.existsSync('microlight.config.js')){
   console.log('microlight config file exists');
 }else{
-  console.log('microlight config file missing. setup config file at .microlight/config.js');
+  console.log('microlight config file missing. setup config file at microlight.config.js');
   return;
 }
 process.chdir(__dirname);
