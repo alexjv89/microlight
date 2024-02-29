@@ -24,9 +24,11 @@ var policies={
 			'*':true
 		},
 		MainController:{
-			selectOrg: ['isAuthenticated'],
-			createOrg: ['isAuthenticated'],
-			landingPage: true,
+			'*':true
+			// viewFolder: ['isAuthenticated'],
+			// viewFolder:true,
+			// viewTask:true,
+			// landingPage: true,
 		},
 		OrgController:{
 			'*':['isAuthenticated','canAccessThisOrg'],
