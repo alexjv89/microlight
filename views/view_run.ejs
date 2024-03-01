@@ -7,7 +7,7 @@
 		if(t.config.slug==req.params.slug)
 			task = t;
 	})
-	var folder_path=task.path.replace('api/tasks/','').replace('/'+task.file,'').split('/');
+	var folder_path=task.path.replace(sails.config.microlight.task_folder+'/','').replace('/'+task.file,'').split('/');
 
 %>
 <div class='ui basic segment container'>
