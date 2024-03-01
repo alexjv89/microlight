@@ -44,7 +44,6 @@
     "passport-oauth2": "^1.5.0",
     "pg": "^8.8.0",
     "query-string": "^6.12.1",
-    "razorpay": "^2.0.7",
     "sails": "1.5.2",
     "sails-helper": "^3.2.0",
     "sails-hook-grunt": "^4.0.0",

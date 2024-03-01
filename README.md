@@ -25,9 +25,9 @@ Microlight is designed as simple solution. This is not designed for massive scal
 
 ### Install package
 ```shell
-degit git@github.com:alexjv89/microlight.git .microlight
+degit git@github.com:alexjv89/microlight.git microlight
 ```
-note degit pull the code from the repo to `.microlight` folder. It has to be pull to this folder only. We recommend adding `.microlight` to `.gitignore`. This way you can commit only the tasks that you are creating.
+note degit pull the code from the repo to `microlight` folder. It has to be pull to this folder only. We recommend adding `microlight` to `.gitignore`. This way you can commit only the tasks that you are creating.
 
 ### Setup config
 ```shell
