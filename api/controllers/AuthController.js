@@ -97,7 +97,6 @@ module.exports = {
 			// create org
 			async.auto({
 				createUser:async function(){
-					
 					return await User.create(user).fetch();
 				},
 				generateToken:['createUser',async function(results){
@@ -114,8 +113,8 @@ module.exports = {
 					var opts={
 						template:'verify_email',
 						to:results.createUser.email,
-						from:'Cashflowy <no-reply@cashflowy.io>',
-						subject: 'Verify your email to start using Cashflowy',
+						from:'Microlight <alex@microlight.echoalex.com>',
+						subject: 'Verify your email to start using microlight',
 						locals:{
 							user: results.createUser,
 							url: url,
@@ -129,20 +128,23 @@ module.exports = {
 						}
 					});
 				}],
-				createOrg:['createUser',async function(results){
-					var org = {
-						name:'My Organisation',
-						owner:results.createUser.id,
+				// createOrg:['createUser',async function(results){
+				// 	var org = {
+				// 		name:'My Organisation',
+				// 		owner:results.createUser.id,
+				// 	}
+				// 	return await Org.create(org).fetch();
+				// }],
+				createMembership:['createUser',async function(results){
+					var users = await User.count();
+					if(users==1){
+						var member ={
+							user:results.createUser.id,
+							type:'admin',
+							// org:results.createOrg.id,
+						}
+						return await Member.create(member);
 					}
-					return await Org.create(org).fetch();
-				}],
-				createMembership:['createOrg','createUser',async function(results){
-					var member ={
-						user:results.createUser.id,
-						type:'admin',
-						org:results.createOrg.id,
-					}
-					return await Member.create(member);
 				}],
 			},function(err,results){
 				if(err){
@@ -218,7 +220,7 @@ module.exports = {
 				var opts={
 					template:'reset',
 					to:results.findUser.email,
-					from:'Cashflowy<no-reply@cashflowy.io>',
+					from:'Microlight<alex@microlight.echoalex.com>',
 					subject: 'Reset Password',
 					locals:{
 						name: results.findUser.name,
@@ -361,7 +363,7 @@ module.exports = {
 				var opts={
 					template:'reset',
 					to:results.findUser.email,
-					from:'Cashflowy<no-reply@cashflowy.io>',
+					from:'Microlight<alex@microlight.echoalex.com>',
 					subject: 'Reset Password',
 					locals:{
 						name: results.findUser.name,
@@ -497,8 +499,8 @@ module.exports = {
 					var opts={
 						template:'verify_email',
 						to:req.user.email,
-						from:'Cashflowy <no-reply@cashflowy.io>',
-						subject: 'Verify your email to start using Cashflowy',
+						from:'Microlight <alex@microlight.echoalex.com>',
+						subject: 'Verify your email to start using Microlight',
 						locals:{
 							user: req.user,
 							url: url,

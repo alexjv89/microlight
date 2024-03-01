@@ -40,7 +40,7 @@
                     <%=message%>
                     <br>
                     <br>
-                    <a class='ui teal button' href='/'>Access Cashflowy</a>
+                    <a class='ui teal button' href='/'>Access Microlight</a>
                 </div>
                 <% } %>
             </div>
@@ -57,13 +57,13 @@
                 <br>
                 <div class="ui positive message">
                     <h3>Thank you for signing up.</h3>
-                    Your email address - <%=req.user.email%> needs to be verified. <br/><br/>
+                    Your email address - <%=req?.user?.email%> needs to be verified. <br/><br/>
                     <i class="check circle icon" style="visibility: visible;"></i>A verification link has been sent to your email account. Click on that link to verify your email address.  
                 </div>
                 <h5 style="color:grey">Didn't receive an email?</h5>
                 <form class="ui form" method="POST">
                 
-                    <button class="ui green <%= message?'disabled':''%> button" type="submit">Resend verification email</button>
+                    <button class="ui violet <%= message?'disabled':''%> button" type="submit">Resend verification email</button>
                     
                 </form>
                 <% if(error){ %>

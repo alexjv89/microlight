@@ -171,7 +171,7 @@ module.exports={
 				var opts={
 					template:'add_user_to_org',
 					to:results.findUser.email,
-					from:'Cashflowy<no-reply@cashflowy.io>',
+					from:'Microlight<alex@microlight.echoalex.com>',
 					subject: 'Add user to org',
 					locals:{
 						user: results.findUser,

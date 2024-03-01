@@ -24,8 +24,9 @@ var policies={
 			'*':true
 		},
 		MainController:{
-			'*':true
-			// viewFolder: ['isAuthenticated'],
+			'*':['isAuthenticated'],
+			// '*':true
+			// viewFolder: 
 			// viewFolder:true,
 			// viewTask:true,
 			// landingPage: true,

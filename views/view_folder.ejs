@@ -41,7 +41,7 @@
 		<span style='opacity: 0.5;'>Folder: </span><span data-content="<%=folder.config.name%>"><%= folder.config?.name?.length > 47 ? folder.config?.name?.substring(0, 47) + '...' : folder.config.name %></span>
 
 		
-		<div class="ui compact basic icon button right floated dropdown">
+		<div class="ui violet compact basic icon button right floated dropdown">
 			<i class="middle aligned ellipsis vertical icon" style="margin-left: 4px;"></i>
 			<div class="menu" style="margin-top: 4px;">
 				<div class="item" id="edit_modal">
@@ -63,6 +63,7 @@
 				<th>Name</th>
 				<th>Description</th>
 				<th>Tasks</th>
+				<!-- <th>Path</th> -->
 			</tr>
 		</thead>
 		<tbody>
@@ -74,7 +75,7 @@
 				</td>
 				<td><%=item?.config?.description%></td>
 				<td><%=item.tasks%></td>
-				<td><%=item.path%></td>
+				<!-- <td><%=item.path%></td> -->
 				
 			</tr>
 			<%}else if(item.type=='task'){%>
@@ -84,6 +85,7 @@
 				</td>
 				<td><%=item?.config?.description%></td>
 				<td><%=item.tasks%></td>
+				<!-- <td><%=item.path%></td> -->
 				
 			</tr>
 			<%}%>

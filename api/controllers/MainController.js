@@ -23,7 +23,7 @@ module.exports = {
 				return res.redirect(`${lastVisitedPage}`);
 			}
 			else{
-				return res.redirect('/orgs');
+				return res.redirect('/library');
 			}
 		}
 		res.redirect('/login');
@@ -32,7 +32,7 @@ module.exports = {
 	viewTask:function(req,res){
 		async.auto({
 			getRuns:async function(){
-				return await Run.find({task:req.params.slug}).sort('createdAt DESC');
+				return await Run.find({task:req.params.slug}).populate('user',{select:['id','name']}).sort('createdAt DESC');
 			}
 		},function(err,results){
 			if(err)
@@ -46,7 +46,7 @@ module.exports = {
 	viewRun:function(req,res){
 		async.auto({
 			getRun:async function(){
-				return await Run.findOne({id:req.params.r_id});
+				return await Run.findOne({id:req.params.r_id}).populate('user');
 			}
 		},function(err,results){
 			if(err)

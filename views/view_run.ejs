@@ -28,7 +28,7 @@
 	<h1 style='margin-top:0;'>
 		<span style='opacity: 0.5;'>Task Run: </span><span data-content="<%=task.config.name%>"><%= task.config?.name?.length > 47 ? task.config?.name?.substring(0, 47) + '...' : task.config.name %> #<%=run.id%></span>
 		
-		<div class="ui compact basic icon button right floated dropdown">
+		<div class="ui violet compact basic icon button right floated dropdown">
 			<i class="middle aligned ellipsis vertical icon" style="margin-left: 4px;"></i>
 			<div class="menu" style="margin-top: 4px;">
 				<div class="item" id="edit_modal">
@@ -36,7 +36,7 @@
 				</div>
 			</div>
 		</div>
-		<a class="ui compact basic button right floated" href='' target='_blank'>
+		<a class="ui violet compact basic button right floated" href='/task/<%=req.params.slug%>'>
 			<i class="file icon"></i> 
 			Run again ...
 		</a>
@@ -45,10 +45,14 @@
 	<table class="ui celled unstackable collapsing compact table">
 	    <tbody>
 	    	<tr>
-	    	    <td><b>Status</b></td>
-	    	    <td><b>Duration</b></td>
+	    	    <td class='center aligned'><b>Run started at</b></td>
+	    	    <td class='center aligned'><b>By User</b></td>
+	    	    <td class='center aligned'><b>Status</b></td>
+	    	    <td class='center aligned'><b>Duration</b></td>
 	    	</tr>
 	        <tr>
+	            <td class=''><%=run?.createdAt?.toISOString().substring(0,10)%><br><%=run?.createdAt?.toISOString().substring(11,19)%></td>
+	            <td class='center aligned'><%=run?.user?.name%></td>
 	            <td class="<%=run.status=='succeeded'?'positive':(run.status=='failed'?'negative':'warning')%>"><%=run.status%></td>
 	            <td class='right aligned'><%=run?.duration%>s</td>
 	        </tr>
@@ -100,6 +104,9 @@
 			var data = $($('pre.json-renderer')[i]).text();
 			$($('pre.json-renderer')[i]).jsonViewer(JSON.parse(data),{collapsed:true,rootCollapsable:false});
 		});
+		$('.ui.button').click(function(){
+			$(this).addClass('loading').addClass('disabled');
+		})
 		// console.log(data);
     	// $('#json-renderer').jsonViewer(JSON.parse(data),{collapsed:true,rootCollapsable:false});
 	})
