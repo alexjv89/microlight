@@ -50,12 +50,12 @@ module.exports = {
       db: process.env.REDIS_BULL_DB,
     }
   },
-  session: {
-    adapter: 'connect-redis',
-    host: process.env.REDIS_SESSION_HOST,
-    port: 6379,
-    db: process.env.REDIS_SESSION_DB,
-  },
+  // session: {
+  //   adapter: 'connect-redis',
+  //   host: process.env.REDIS_SESSION_HOST,
+  //   port: 6379,
+  //   db: process.env.REDIS_SESSION_DB,
+  // },
   // slack_webhook: process.env.SLACK_WEBHOOK,
   mailgun: {
     api_key: process.env.MAILGUN_APIKEY,
