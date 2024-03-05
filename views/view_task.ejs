@@ -52,6 +52,7 @@
 		</form>
 	</div>
 	<h3>Schedule:</h3>
+	<%if(task.config?.schedule){%>
 	<table class="ui celled unstackable collapsing compact table">
 	    <thead>
 	        <tr>
@@ -64,10 +65,13 @@
 	    	<tr>
 	    		<td><%=task.config?.schedule?.crontime %></td>
 	    		<td><%=task.config?.schedule?.timezone%></td>
-	    		<td><%=moment(new Date(task.cronjob.nextDate())).fromNow()%></td>
+	    		<td><%=moment(new Date(task?.cronjob?.nextDate()))?.fromNow()%></td>
 	    	</tr>
 	    </tbody>
 	</table>
+	<%}else{%>
+	This task is not scheduled
+	<%}%>
 	<h3>Recent runs:</h3>
 	<table class="ui celled unstackable collapsing table">
 	    <thead>
