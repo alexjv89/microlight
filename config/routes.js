@@ -26,7 +26,7 @@ var routes = {
 		"GET /set_password": "AuthController.setPassword",
 		"POST /set_password": "AuthController.setPassword",
 		"GET /auth/google": "AuthController.googleAuthUrlRedirect",
-		"GET /google/oauth2/callback": "AuthController.googleCallback",
+		"GET /oauth2/callback/google": "AuthController.googleCallback",
 		"GET /verify_email": "AuthController.verifyEmail", // view verify email page and link from email
 		"POST /verify_email": "AuthController.verifyEmail", // Send email 
 	},

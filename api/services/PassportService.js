@@ -22,14 +22,70 @@ passport.use(new GoogleStrategy({
 		passReqToCallback   : true
 	},
 	function(request, accessToken, refreshToken, profile, done) {
-		var rnd = (len, chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') => [...Array(len)].map(() => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
-		const salt = bcrypt.genSaltSync(10);
-		var hashed_password = bcrypt.hashSync(rnd(12), salt);
-		User.findOrCreate({ email: profile.email }, {email:profile.email,name:profile.displayName,password:hashed_password},function (err, user) {
-			return done(err,user);
-    });
+		// console.log(profile);
+		
+		try{
+			async.auto({
+				findUser:async function(){
+					return await User.findOne({ email: profile.email });
+				},
+				updateUser:['findUser',async function(results){
+					if(results.findUser){
+						google_profile = profile._json;
+						var update = {
+							is_verified:google_profile.email_verified,
+							google_profile
+						}
+						return await User.updateOne({email:profile.email},update);
+					}
+				}],
+				createUser:['findUser',async function(results){
+					var rnd = (len, chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') => [...Array(len)].map(() => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
+					const salt = bcrypt.genSaltSync(10);
+					var hashed_password = bcrypt.hashSync(rnd(12), salt); // randomly generated password.
+					if(!results.findUser){
+						var user = {
+							name:profile?._json?.name,
+							email:profile?._json?.email,
+							is_verified:profile?._json?.email_verified,
+							password:hashed_password,
+							google_profile:profile?._json,
+						}
+						return await User.create(user).fetch();
+					}
+				}],
+				createMembership:['createUser',async function(results){
+					var users = await User.count();
+					if(users==1){ // if you are the first user to be created on the microlight
+						var member ={
+							user:results.createUser.id,
+							type:'admin',
+							// org:results.createOrg.id,
+						}
+						return await Member.create(member);
+					}
+				}],
+			},function(err,results){
+				var user = results.updateUser||results.createUser;
+				return done(err,user);
+			})
+		}catch(e){
+			throw(e);
+		}
+		
+		// if user does not exist
+		// 	- create user
+		// 	- create new org
+		// if user exists
+		// 	- just find the user
+		// User.findOrCreate(, {email:profile.email,name:profile.displayName,password:hashed_password,},function (err, user) {
+		// 	return done(err,user);
+    	// });
   	}
 ));
+
+
+
 
 /*
 	email and password login strategy

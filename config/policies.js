@@ -24,7 +24,7 @@ var policies={
 			'*':true
 		},
 		MainController:{
-			'*':['isAuthenticated'],
+			'*':['isAuthenticated','isMember'],
 			// '*':true
 			// viewFolder: 
 			// viewFolder:true,
@@ -36,10 +36,10 @@ var policies={
 			'createOrg':['isAuthenticated']
 		},
 		SettingsController:{
-			'*':['isAuthenticated','canAccessThisOrg'],
+			'*':['isAuthenticated','isMember'],
 		},
 		UserSettingsController:{
-			'*':['isAuthenticated'],
+			'*':['isAuthenticated','isMember'],
 		},
 		BullController:{
 			'*':['isAuthenticated','isAdmin']

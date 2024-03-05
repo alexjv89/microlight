@@ -3,9 +3,17 @@
 		<!-- <div class='three wide tablet computer only column'></div> -->
 		<div class='eight wide tablet six wide computer two wide mobile  column'>
 			<div class='ui segment'>
+				<h1 class="ui header">Login</h1>
+				<!-- <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+				<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+				<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> -->
+				<!-- <script src="/dependencies/react.development.js"></script>
+				<script src="/dependencies/react-dom.development.js"></script>
+				<script src="/dependencies/babel.min.js"></script> -->
 
-				<h1>Login</h1>
-
+				<!-- <div id="login-header" class="text-sm"></div>
+				<script src="js/Login.jsx" type="text/babel">
+				</script> -->
 				<form action="/login?redirect=<%=req.query.redirect%>" method="post" class='ui <%-error?"error":""%> form'>
 					<div class="ui error message">
 						<div class="header">Please correct error in form</div>
@@ -28,27 +36,26 @@
 							<input type="checkbox" tabindex="0" id="show_password" class="hidden">
 							<label>Show Password</label>
 						</div>
+						<a href="/forgot" style="float:right;">Forgot your password?</a>
 					</div>
-					<input type="submit"/ class='ui teal button' value="Log In">
+					<!-- <br> -->
+					<!-- <br> -->
+					<input type="submit" class="ui teal fluid button" value="Sign in" />
+
+
+					<div class='ui horizontal divider'>Or</div>
+					<a class="ui labeled basic icon fluid button" href='/auth/google' id='login_with_google'>
+					  <i class="icon">
+					  	<img class="" src="https://developers.google.com/identity/images/g-logo.png" style="width:16px; height:16px">
+					  </i>
+					  Sign In with Google
+					</a>
+
 				</form>
-			</br>
-				<a href="/forgot">Forgot your password?</a>
+				
 			</div>
-			<!-- <div class='ui segment'>
-				<div class='g-sign-in-button'>
-					<div class=content-wrapper onclick="window.location='/auth/google'" >
-						<div class='logo-wrapper'>
-							<img src='https://developers.google.com/identity/images/g-logo.png' >
-						</div>
-						<span class='text-container'>
-					  		<span>Sign in with Google</span>
-						</span>
-					</div>
-				</div>
-			</div> -->
-			<div class='ui segment'>
-				<h3>New here? Signup instead </h3>
-				<a href="/signup" class='ui button'>Get Started For Free</a>
+			<div class="ui basic center aligned segment">
+				<a href="/signup">Create free account</a>
 			</div>
 		</div>
 		<!-- <div class='three wide tablet computer only column'></div> -->
@@ -57,6 +64,9 @@
 </div>
 <script>
 	$(document).ready(function(e){
+		$('#login_with_google').click(function(){
+			$('form').addClass('loading');
+		})
 		$('#login_checkbox').checkbox()
 		$('#show_password').change(function() {
             var password_input = $('#password_input');
@@ -68,66 +78,3 @@
         });
 	})
 </script>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-<style>
-	*, *:before, *:after {
-		box-sizing: border-box;
-	}
-
-	.g-sign-in-button {
-		margin: 10px;
-		display: inline-block;
-		width: 240px;
-		height: 50px;
-		background-color: #4285f4;
-		color: #fff;
-		border-radius: 1px;
-		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
-		transition: background-color .218s, border-color .218s, box-shadow .218s;
-	}
-
-	.g-sign-in-button:hover {
-		cursor: pointer;
-		-webkit-box-shadow: 0 0 3px 3px rgba(66, 133, 244, 0.3);
-		box-shadow: 0 0 3px 3px rgba(66, 133, 244, 0.3);
-	}
-
-	.g-sign-in-button:active {
-		background-color: #3367D6;
-		transition: background-color 0.2s;
-	}
-
-	.g-sign-in-button .content-wrapper {
-		height: 100%;
-		width: 100%;
-		border: 1px solid transparent;
-	}
-
-	.g-sign-in-button img {
-		width: 18px;
-		height: 18px;
-	}
-
-	.g-sign-in-button .logo-wrapper {
-		padding: 15px;
-		background: #fff;
-		width: 48px;
-		height: 100%;
-		border-radius: 1px;
-		display: inline-block;
-	}
-
-	.g-sign-in-button .text-container {
-		font-family: Roboto,arial,sans-serif;
-		font-weight: 500;
-		letter-spacing: .21px;
-		font-size: 16px;
-		line-height: 48px;
-		vertical-align: top;
-		border: none;
-		display: inline-block;
-		text-align: center;
-		width: 180px;
-	}
-
-</style>

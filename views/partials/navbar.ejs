@@ -6,14 +6,15 @@
 			<a class="item home header <%if(req.page=='dashboard'){%>active<%}%>" href="/">
 				Microlight
 			</a>
+			<%if(req.user && req.user?.memberships?.length){%>
 				<a class="item home" href="/library">
 					Library
 				</a>
 				<a class="item home" href="/settings">
 					Settings
 				</a>
-			<%if(req.user){%>
 			<%}%>
+			
 			
 			<div class="right menu">
 				

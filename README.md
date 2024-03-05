@@ -44,6 +44,13 @@ module.exports={
 ```shell
 node node_modules/@alexjv89/microlight/app.js
 ```
-
+### Development
+- use vs code for development 
+- set up tasks_folder:'api/tasks'
+- set the project folder to be the microlight folder itself.
+```js
+// project_folder=process.cwd().replace('/microlight',''); // makes this global variable
+project_folder=process.cwd(); // makes this global variable
+```
 
 

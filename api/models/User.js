@@ -35,6 +35,10 @@ module.exports = {
 		memberships:{
 			collection:'Member',
 			via:'user',
+		},
+		google_profile:{
+			type:'json',
+			// defaultsTo:{}
 		}
 	},
 	customToJSON: function() {
