@@ -5,14 +5,56 @@
 		<div class="section">Members</div>
 	</div>
 	<h1 style='margin-top:0;'>
-		Settings
+		Org Settings
 	</h1>
 	<div class='ui grid'>
 		<div class='four wide column'>	
-			<% include partials/settings_menu %>
+			<%- include('partials/settings_menu') %>
 		</div>
 		<div class='twelve wide column'>
-			<h3>Members</h3>
+			<div class='ui segment'>
+				<h4>Grant access to user</h4>
+				<form class="ui form" id="membership_form">
+					<!-- <h4 class="ui dividing header">Shipping Information</h4> -->
+					<div class="three fields">
+						<div class="field">
+							<label>Email</label>
+							<input type="email"  name="email" placeholder="Email">
+						</div>
+						<div class="field">
+							<label>Name</label>
+							<input type="text"  name="name" placeholder="Full name">
+						</div>	
+						<div class="field">
+							<label>Access type</label>
+							<div class="ui fluid selection dropdown" id='select_type' >
+							<input type="hidden" name="type" value="runner">
+							<i class="dropdown icon"></i>
+							<div class="default text">Choose type of access</div>
+							<div class="menu">
+								<div class="item" data-value="admin">Admin</div>
+								<!-- <div class="item" data-value="creator">Creator</div> -->
+								<div class="item" data-value="runner">Runner</div>
+							</div>
+						</div>
+						</div>
+					</div>
+					
+					<div class="field" style='display:none;' >
+						<input type="text" name="referer"  value="<%=req.headers.referer%>">
+					</div>
+					<div class="ui error message">
+						<div class="header">Error</div>
+						<p>Error message</p>
+					</div>
+					<input id="add_member" class="ui basic teal button" value="Add Member">
+					<div class="ui success message">
+						<div class="header">Creating access</div>
+						Hold on tight.. we are creating access for this user. 
+					</div>
+				</form>
+			</div>
+			<h3>Members </h3>
 			<table class="ui basic unstackable  table">
 				<thead>
 					<tr>
@@ -33,53 +75,7 @@
 					<%})%>
 				</tbody>
 			</table>
-			<div class='ui segment'>
-				<h4>Grant access to user</h4>
-				<%var gstin={};%>
-				<form class="ui form" id="membership_form">
-					<!-- <h4 class="ui dividing header">Shipping Information</h4> -->
-					<div class="two fields">
-						<div class="field">
-							<label>User</label>
-							<div class="ui search selection dropdown">
-								<input type="hidden"  name="user_id" >
-								<i class="dropdown icon"></i>
-								<!-- <input type="text" class="search" tabindex="0"> -->
-								<div class="default text">Search using email</div>
-								<div class="menu transition hidden" tabindex="-1">
-								</div>
-							</div>
-						</div>	
-						<div class="field">
-							<label>Access type</label>
-							<div class="ui fluid selection dropdown" id='select_type' >
-							<input type="hidden" name="type" value="contributor">
-							<i class="dropdown icon"></i>
-							<div class="default text">Choose type of transaction</div>
-							<div class="menu">
-								<div class="item" data-value="admin">Admin</div>
-								<div class="item" data-value="contributor">Contributor</div>
-								<div class="item" data-value="guest">Guest</div>
-								<div class="item" data-value="albert_agent">Agent</div>
-							</div>
-						</div>
-						</div>
-					</div>
-					
-					<div class="field" style='display:none;' >
-						<input type="text" name="referer"  value="<%=req.headers.referer%>">
-					</div>
-					<div class="ui error message">
-						<div class="header">Error</div>
-						<p><%=gstin.message%></p>
-					</div>
-					<input id="add_member" class="ui basic teal button" value="Add Member">
-					<div class="ui success message">
-						<div class="header">Creating access</div>
-						Hold on tight.. we are creating access for this user. 
-					</div>
-				</form>
-			</div>
+			
 		</div>
 	</div>
 </div>
@@ -115,15 +111,16 @@
 						class: 'success'
 					};
 					$.ajax({
-						url: "/org/<%=req.org?.id%>/settings/membership/"+m_id+"/revoke",
+						url: "/settings/membership/"+m_id+"/revoke",
 						type: 'DELETE',
 						success: function (result, status) {
 							console.log(result, status);
 							$(this).addClass('loading');
 							showToast(options);
-							setTimeout(function() {
-								location.reload();
-							}, 3000);
+							$(`tr[data-tid="${m_id}"]`).hide()
+							// setTimeout(function() {
+								// location.reload();
+							// }, 3000);
 						},
 						error: function (jqXHR, textStatus, errorThrown) {
 							alert("Error: " + jqXHR.responseJSON.error);
@@ -138,8 +135,9 @@
 			.modal('show');
 		});
 		$('#add_member').click(function(e){
-			$('#add_member').addClass('loading');
-			$('#add_member').addClass('disabled');
+			$('#membership_form').addClass('loading');
+			// $('#add_member').addClass('loading');
+			// $('#add_member').addClass('disabled');
 			console.log("button works")
 			var formData = $('#membership_form').serialize();
 			console.log(formData)
@@ -149,7 +147,7 @@
 				class: 'success'
 			};
 			$.ajax({
-				url: "/org/<%=req.org?.id%>/settings/membership/create",
+				url: "/settings/membership/create",
 				type: 'POST',
 				data: formData,
 				success: function (result, status) {
@@ -161,19 +159,14 @@
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
 					alert("Error: " + jqXHR.responseJSON.error);
-					$('#add_member').removeClass('loading');
-					$('#add_member').removeClass('disabled');
+					
+					$('#membership_form').removeClass('loading');
+					// $('#add_member').removeClass('disabled');
 				}
 			});
 		})
-		$('.search.selection.ui.dropdown').dropdown({
-			apiSettings: {
-				// this url parses query server side and returns filtered results
-				url: '/dropdown/users?email={query}'
-			},
-		});
 		$('#select_type').dropdown({});
-		$('#navbar_menu a[href="/org/<%=req.org?.id%>/settings"].item').addClass('active');
+		$('#navbar_menu a[href="/settings"].item').addClass('active');
 		$('.ui.form').form({
 			// fields: {
 			// 	user_id: 'empty',

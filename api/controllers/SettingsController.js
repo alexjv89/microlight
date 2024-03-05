@@ -138,44 +138,44 @@ module.exports={
 	},
 	createMembership:function(req,res){
 		async.auto({
-			createMembership:async function(){
+			// find user
+			// if not create user
+			// create membership
+			findUser:async function(){
+				var rnd = (len, chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') => [...Array(len)].map(() => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
+				var bcrypt = require('bcryptjs');
+				const salt = bcrypt.genSaltSync(10);
+				var hashed_password = bcrypt.hashSync(rnd(12), salt); // randomly generated password.
+				var create = {
+					name:req.body.name||req.body.email.split('@')[0],
+					email:req.body.email,
+					is_verified:false,
+					password:hashed_password,
+				}
+				var user = await User.findOne({email:req.body.email});
+				if(!user){
+					user = await User.create(create).fetch();
+					user.created_now=true;
+				}
+				return user;
+			},
+			createMembership:['findUser',async function(results){
 				var member={
 					type:req.body.type,
-					user:req.body.user_id,
-					org:req.org.id,
+					user:results.findUser.id,
 				}
 				return await Member.create(member).fetch();
-				
-			},
-			// sendEmail:async function(){
-			// 	var data={
-			// 		title:'Send Email - Add user to org',
-			// 		options:{
-			// 			template:'add_user_to_org',
-			// 			org:req.org.id,
-			// 			user:req.body.user_id,
-			// 		},
-			// 	};
-			// 	await queue.add('send_transactional_email',data);
-			// }
-			findUser:['createMembership',async function(results){
-				var user = await User.findOne({ where: {id: results.createMembership.user }, })
-				return user
 			}],
-			findOrg:['createMembership',async function(results){
-				var org = await Org.findOne({ where: {id: results.createMembership.org }, })
-				return org
-			}],	
-			sendMail:['createMembership','findUser','findOrg', function(results, cb){
-				var url = sails.config.app_url + '/org/'+ req.org.id;
+			sendMail:['createMembership','findUser', function(results, cb){
+				var url = sails.config.app_url;
 				var opts={
 					template:'add_user_to_org',
 					to:results.findUser.email,
-					from:'Microlight<alex@microlight.echoalex.com>',
-					subject: 'Add user to org',
+					from:'Microlight <no-reply@mail.microlight.com>',
+					subject: `${req.user.name} invited you to join Microlight`,
 					locals:{
+						req_user:req.user,
 						user: results.findUser,
-						org:results.findOrg,
 						url:url
 					}
 				}
@@ -183,7 +183,6 @@ module.exports={
 					cb(err)
 				})
 			}]
-			
 		},function(err,results){
 			if(err)
 				return res.handleError(err);
@@ -193,7 +192,7 @@ module.exports={
 	revokeMembership:function(req,res){
 		async.auto({
 			revokeMembership:async function(){
-				return await Member.destroyOne({id:req.params.m_id,org:req.org.id});
+				return await Member.destroyOne({id:req.params.m_id});
 			}
 		},function(err,results){
 			if(err)
