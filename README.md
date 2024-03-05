@@ -105,3 +105,33 @@ module.exports = {
 };
 
 ```
+
+### Envronment variables
+```
+# google client
+ML_GOOGLE_CLIENT_ID=""
+ML_GOOGLE_CLIENT_SECRET=""
+ML_GOOGLE_CALLBACK_URL="https://microlight.cashflowy.io/oauth2/callback/google"
+
+# connect to database
+ML_DB_HOST=""
+ML_DB_USER=""
+ML_DB_PASSWORD=""
+ML_DB_DATABASE="microlight"
+
+
+APP_NAME="microlight"
+APP_URL="http://microlight.cashflowy.io"
+
+# sailsjs basic settings
+NODE_ENV="development"
+PORT="1337"
+SAILS_SESSION_SECRET="asdfasfadsfasdf"
+PASSWORD_RESET_SECRET="asdfasdfasdfasfdasgf"
+
+# connect to mailgun
+# MAILGUN_FROM_EMAIL="alex@microlight.echoalex.com"
+MAILGUN_APIKEY=""
+MAILGUN_DOMAIN="mail.cashflowy.io"
+MAILGUN_INCOMING_DOMAIN="mail.cashflowy.io"
+```
