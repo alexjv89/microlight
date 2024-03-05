@@ -1,24 +1,24 @@
 <!-- <h4>GSTIN settings</h4> -->
 <div class="ui vertical fluid pointing menu">
-	<!-- <a class="item" href='/org/<%=req.params.o_id%>/settings'>
+	<!-- <a class="item" href='/org/settings'>
 		General
 	</a> -->
-	<a class="item" href='/org/<%=req.params.o_id%>/settings/general'>
+	<a class="disabled item" href='/settings/general'>
 		General
 	</a>
-	<a class="item" href='/org/<%=req.params.o_id%>/settings/members'>
+	<a class="item" href='/settings/members'>
 		Members
 	</a>
-	<a class="item" href='/org/<%=req.params.o_id%>/settings/apikeys'>
+	<a class="disabled item" href='/settings/apikeys'>
 		API Keys
 	</a>
-	<a class="item" href='/org/<%=req.params.o_id%>/settings/feature_flags'>
+	<a class="disabled item" href='/settings/feature_flags'>
 		Preferences
 	</a>
 </div>
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('head title').text('Settings | <%= req.org.name %>');
+		$('head title').text('Settings | <%= req.org?.name %>');
 	})
 </script>

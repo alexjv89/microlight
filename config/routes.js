@@ -61,24 +61,20 @@ var routes = {
 
 		
 		
-		"GET /org/:o_id/settings":"SettingsController.general",
-		"POST /org/:o_id/settings":"SettingsController.general",
-		"GET /org/:o_id/settings":"SettingsController.general",
-		"GET /org/:o_id/settings/apikeys":"SettingsController.apiKeys",
-		"POST /org/:o_id/settings/apikeys":"SettingsController.apiKeys",
-		"GET /org/:o_id/settings/api_key/create":"SettingsController.createAPIKey",
-		"POST /org/:o_id/settings/api_key/create":"SettingsController.createAPIKey",
-		"GET /org/:o_id/settings/api_key/:k_id/delete":"SettingsController.deleteAPIKey",
-		"POST /org/:o_id/settings/api_key/:k_id/delete":"SettingsController.deleteAPIKey",
-		"GET /org/:o_id/settings/feature_flags":"SettingsController.featureFlags",
-		"POST /org/:o_id/settings/feature_flags":"SettingsController.featureFlags",
-		"GET /org/:o_id/settings/members":"SettingsController.members",
-		"POST /org/:o_id/settings/membership/create":"SettingsController.createMembership",
-		"DELETE /org/:o_id/settings/membership/:m_id/revoke":"SettingsController.revokeMembership",
-	},
-	user_settings:{
-		"GET /settings":"UserSettingsController.general",
-		"POST /settings":"UserSettingsController.general",
+		"GET /settings":"SettingsController.general",
+		"POST /settings":"SettingsController.general",
+		"GET /settings":"SettingsController.general",
+		"GET /settings/apikeys":"SettingsController.apiKeys",
+		"POST /settings/apikeys":"SettingsController.apiKeys",
+		"GET /settings/api_key/create":"SettingsController.createAPIKey",
+		"POST /settings/api_key/create":"SettingsController.createAPIKey",
+		"GET /settings/api_key/:k_id/delete":"SettingsController.deleteAPIKey",
+		"POST /settings/api_key/:k_id/delete":"SettingsController.deleteAPIKey",
+		"GET /settings/feature_flags":"SettingsController.featureFlags",
+		"POST /settings/feature_flags":"SettingsController.featureFlags",
+		"GET /settings/members":"SettingsController.members",
+		"POST /settings/membership/create":"SettingsController.createMembership",
+		"DELETE /settings/membership/:m_id/revoke":"SettingsController.revokeMembership",
 	},
 	
 	
@@ -105,7 +101,6 @@ module.exports.routes = _.merge(
 	routes.admin,
 	routes.main,
 	routes.org_settings,
-	routes.user_settings,
 	routes.webhook,
 	routes.bull,
 );

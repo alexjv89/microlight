@@ -38,9 +38,6 @@ var policies={
 		SettingsController:{
 			'*':['isAuthenticated','isMember'],
 		},
-		UserSettingsController:{
-			'*':['isAuthenticated','isMember'],
-		},
 		BullController:{
 			'*':['isAuthenticated','isAdmin']
 		},

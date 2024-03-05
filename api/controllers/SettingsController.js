@@ -1,6 +1,6 @@
 module.exports={
 	general:function(req,res){
-		return res.redirect(`/org/${req.org.id}/settings/members`);
+		return res.redirect(`/settings/members`);
 	},
 	apiKeys:function(req,res){
 		var locals={};
@@ -126,7 +126,7 @@ module.exports={
 	members:function(req,res){
 		async.auto({
 			getAllMembers:function(callback){
-				Member.find({org:req.org.id}).sort('createdAt DESC').populate('user').exec(callback);
+				Member.find().sort('createdAt DESC').populate('user').exec(callback);
 			},
 		},function(err,results){
 			if(err)

@@ -1,20 +1,18 @@
 <div class='ui basic container segment'>
 	<div class="ui breadcrumb">
-		<a class="section" href='/org/<%=req.org.id%>'><%=req.org.name%></a>
-		<i class="right angle icon divider"></i>
 		<div class="section">Settings</div>
 		<i class="right angle icon divider"></i>
 		<div class="section">Members</div>
 	</div>
 	<h1 style='margin-top:0;'>
-		Org Settings
+		Settings
 	</h1>
 	<div class='ui grid'>
 		<div class='four wide column'>	
 			<% include partials/settings_menu %>
 		</div>
 		<div class='twelve wide column'>
-			<h3>Members of <%=req.org.name%></h3>
+			<h3>Members</h3>
 			<table class="ui basic unstackable  table">
 				<thead>
 					<tr>
@@ -27,8 +25,8 @@
 				<tbody>
 					<%members.forEach(function(m){%>
 						<tr data-tid='<%=m.id%>'>
-							<td class='single line'><%=m.user.name%></td>
-							<td class='single line'><%=m.user.email%></td>
+							<td class='single line'><%=m?.user?.name%></td>
+							<td class='single line'><%=m?.user?.email%></td>
 							<td><%=m.type%></td>
 							<td class='single line'><button class="ui basic red button revoke_access" data-member-id="<%=m.id%>">Delete</button>
 						</tr>
@@ -117,7 +115,7 @@
 						class: 'success'
 					};
 					$.ajax({
-						url: "/org/<%=req.org.id%>/settings/membership/"+m_id+"/revoke",
+						url: "/org/<%=req.org?.id%>/settings/membership/"+m_id+"/revoke",
 						type: 'DELETE',
 						success: function (result, status) {
 							console.log(result, status);
@@ -151,7 +149,7 @@
 				class: 'success'
 			};
 			$.ajax({
-				url: "/org/<%=req.org.id%>/settings/membership/create",
+				url: "/org/<%=req.org?.id%>/settings/membership/create",
 				type: 'POST',
 				data: formData,
 				success: function (result, status) {
@@ -175,7 +173,7 @@
 			},
 		});
 		$('#select_type').dropdown({});
-		$('#navbar_menu a[href="/org/<%=req.org.id%>/settings"].item').addClass('active');
+		$('#navbar_menu a[href="/org/<%=req.org?.id%>/settings"].item').addClass('active');
 		$('.ui.form').form({
 			// fields: {
 			// 	user_id: 'empty',
