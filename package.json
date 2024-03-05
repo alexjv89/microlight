@@ -1,6 +1,6 @@
 {
   "name": "@alexjv89/microlight",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Simple task runner for small teams",
   "keywords": [],
   "dependencies": {
@@ -20,6 +20,7 @@
     "bull": "^3.18.1",
     "chai": "^4.3.6",
     "connect-redis": "^4.0.3",
+    "cron": "^3.1.6",
     "cronstrue": "^2.27.0",
     "dedent": "^1.5.1",
     "dotenv": "^16.3.1",

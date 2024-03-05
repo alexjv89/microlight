@@ -39,7 +39,6 @@
 		
 	</h1>
 	<div class='ui segment'>
-		<!-- <pre><%=JSON.stringify(task,2,2)%></pre> -->
 		<form action="/task/<%=req.params.slug%>/execute" method="post" class='ui <%-req.query.error?"req.query.error":""%> form' enctype="multipart/form-data">
 			<div class="ui error message">
 				<div class="header">Please correct error in form</div>
@@ -53,6 +52,22 @@
 		</form>
 	</div>
 	<h3>Schedule:</h3>
+	<table class="ui celled unstackable collapsing compact table">
+	    <thead>
+	        <tr>
+	            <th>Cron Time</th>
+	            <th>Timezone</th>
+	            <th>Next run</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	    	<tr>
+	    		<td><%=task.config?.schedule?.crontime %></td>
+	    		<td><%=task.config?.schedule?.timezone%></td>
+	    		<td><%=moment(new Date(task.cronjob.nextDate())).fromNow()%></td>
+	    	</tr>
+	    </tbody>
+	</table>
 	<h3>Recent runs:</h3>
 	<table class="ui celled unstackable collapsing table">
 	    <thead>
@@ -68,7 +83,7 @@
 	    <tbody>
 	    	<%runs.forEach(function(run){%>
 	        <tr>
-	            <td><%=run.createdAt.toISOString()%></td>
+	            <td><%=moment(run.createdAt).format('MMM Do YY h:mm a')%></td>
 	            <td><a href='/task/<%=run.task%>/run/<%=run.id%>'><%=run.task%> #<%=run.id%></a></td>
 	            <td class="<%=run.status=='succeeded'?'positive':(run.status=='failed'?'negative':'warning')%>"><%=run.status%></td>
 	            <td class='right aligned'><%=run?.duration?.toFixed(1)%>s</td>

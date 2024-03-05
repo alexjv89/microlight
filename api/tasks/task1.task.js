@@ -9,15 +9,18 @@ module.exports = {
     //   type: 'string',
     //   required:true
     // }
-    id:{
-      description:'ID of the master data version',
-      type:'number',
-      required:true
-    }
+    // id:{
+    //   description:'ID of the master data version',
+    //   type:'number',
+    //   required:true
+    // }
   },
-
-  fn: async function ({id}) {
-    console.log('looks like everything is done');
+  schedule:{
+    crontime:'30 6 * * *',
+    timezone:'Asia/Kolkata',
+  },
+  fn: async function (ml,{id}) {
+    ml.log('looks like everything is done - '+new Date().toISOString());
     return 'all done';
   }
 };

@@ -38,7 +38,8 @@ module.exports = {
 			if(err)
 				throw err;
 			var locals={
-				runs:results.getRuns
+				runs:results.getRuns,
+				moment:moment,
 			}
 			res.view('view_task',locals);
 		})

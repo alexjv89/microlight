@@ -53,4 +53,55 @@ node node_modules/@alexjv89/microlight/app.js
 project_folder=process.cwd(); // makes this global variable
 ```
 
+### Usage
 
+Sample task
+
+```js
+module.exports = {
+
+  slug:'process_master_data',
+  name: 'Process master data',
+  description: 'Hello something.',
+  inputs: {
+    // filename: {
+    //   description: 'filename of the excel file',
+    //   type: 'string',
+    //   required:true
+    // }
+    // id:{
+    //   description:'ID of the master data version',
+    //   type:'number',
+    //   required:true
+    // }
+  },
+  schedule:{
+    crontime:'30 6 * * *',
+    timezone:'Asia/Kolkata',
+  },
+  fn: async function (ml,{id}) {
+  	// print single string value
+    ml.log('looks like everything is done - '+new Date().toISOString());
+    // print markdown to logs
+    
+    ml.markdown(`
+      ### Dry run
+      #### About the file you uploaded
+      - **Upload file:** ${file.filename}
+      - **Contains parts:** ${dryrun.parts.join(', ')}
+      - **Contains weeks:** ${dryrun.weeks.join(', ')}
+      #### Changes that will be made:
+      - **Will update:** ${dryrun.status.updated}
+      - **Will create:** ${dryrun.status.created}
+    `);
+
+    //print json 
+    ml.json(file);
+
+    //print error
+    ml.error(new Error('sample error'));
+    return 'all done';
+  }
+};
+
+```
