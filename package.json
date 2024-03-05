@@ -1,6 +1,6 @@
 {
   "name": "@alexjv89/microlight",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Simple task runner for small teams",
   "keywords": [],
   "dependencies": {
