@@ -37,6 +37,9 @@ function getFiles(dir, tree=[]) {
 			// files.push(name)
 		}
 	}
+	tree = _.sortBy(tree,function(l){ // sort the files in alphabetical order
+		return l.config.name||l.file;
+	})
 	return tree
 }
 var scheduleTasks = function(){
