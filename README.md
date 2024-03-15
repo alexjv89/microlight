@@ -23,9 +23,18 @@ Microlight is designed as simple solution. This is not designed for massive scal
 
 ## Setup
 
+Create a new folder and a git repo
+e.g. 
+```
+mkdir microlight-imgears
+git init
+```
+
 ### Install package
 ```shell
 degit git@github.com:alexjv89/microlight.git microlight
+cd microlight && npm install --omit=dev
+cd .. # to come back to the project repo
 ```
 note degit pull the code from the repo to `microlight` folder. It has to be pull to this folder only. We recommend adding `microlight` to `.gitignore`. This way you can commit only the tasks that you are creating.
 
@@ -39,6 +48,77 @@ module.exports={
 	tasks_folder:'tasks', // change this to load tasks from a different folder
 }
 ```
+
+### Create a sample task
+```shell
+mkdir tasks
+cd tasks
+touch sample.task.js
+cd .. # to come back to project repo
+```
+
+Sample task
+```js
+module.exports = {
+  slug:'sample_task',
+  name: 'Sample Task',
+  description: 'Hello world',
+  inputs: {
+    name:{
+      description:'Name of the user',
+      type:'string',
+    }
+  },
+  schedule:{
+    crontime:'30 6 * * *',
+    timezone:'Asia/Kolkata',
+  },
+  fn: async function (ml,{name}) {
+    if(!name)
+      ml.log(`Hello ${name||'World'}`);
+    return 'all done';
+  }
+};
+```
+
+
+
+### Create environment variables
+```shell
+touch .env
+nano .env #copy envinronment variables here
+```
+
+environment variables required
+```yaml
+# google client
+ML_GOOGLE_CLIENT_ID=""
+ML_GOOGLE_CLIENT_SECRET=""
+ML_GOOGLE_CALLBACK_URL="https://microlight.cashflowy.io/oauth2/callback/google"
+
+# connect to database
+ML_DB_HOST=""
+ML_DB_USER=""
+ML_DB_PASSWORD=""
+ML_DB_DATABASE="microlight"
+
+
+APP_NAME="microlight"
+APP_URL="http://microlight.cashflowy.io"
+
+# sailsjs basic settings
+NODE_ENV="development"
+PORT="1337"
+SAILS_SESSION_SECRET="asdfasfadsfasdf"
+PASSWORD_RESET_SECRET="asdfasdfasdfasfdasgf"
+
+# connect to mailgun
+# MAILGUN_FROM_EMAIL="alex@microlight.echoalex.com"
+MAILGUN_APIKEY=""
+MAILGUN_DOMAIN="mail.cashflowy.io"
+MAILGUN_INCOMING_DOMAIN="mail.cashflowy.io"
+```
+
 
 ### Start server
 ```shell
@@ -106,32 +186,4 @@ module.exports = {
 
 ```
 
-### Envronment variables
-```
-# google client
-ML_GOOGLE_CLIENT_ID=""
-ML_GOOGLE_CLIENT_SECRET=""
-ML_GOOGLE_CALLBACK_URL="https://microlight.cashflowy.io/oauth2/callback/google"
 
-# connect to database
-ML_DB_HOST=""
-ML_DB_USER=""
-ML_DB_PASSWORD=""
-ML_DB_DATABASE="microlight"
-
-
-APP_NAME="microlight"
-APP_URL="http://microlight.cashflowy.io"
-
-# sailsjs basic settings
-NODE_ENV="development"
-PORT="1337"
-SAILS_SESSION_SECRET="asdfasfadsfasdf"
-PASSWORD_RESET_SECRET="asdfasdfasdfasfdasgf"
-
-# connect to mailgun
-# MAILGUN_FROM_EMAIL="alex@microlight.echoalex.com"
-MAILGUN_APIKEY=""
-MAILGUN_DOMAIN="mail.cashflowy.io"
-MAILGUN_INCOMING_DOMAIN="mail.cashflowy.io"
-```

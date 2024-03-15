@@ -1,5 +1,6 @@
-project_folder=process.cwd().replace('/microlight',''); // makes this global variable
-// project_folder=process.cwd(); // makes this global variable
+var temp = process.cwd().split('/');
+temp.pop();
+project_folder = temp.join('/'); // makes this global variable
 const fs = require('fs');
 // var project_folder=process.cwd().replace('/node_modules/@alexjv89/microlight','');
 // Recursive function to get files
