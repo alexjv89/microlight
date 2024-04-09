@@ -57,6 +57,10 @@
 		 <% } %>
 		
 	</h1>
+	<h3>Docs:</h3>
+	<div class='ui segment'>
+		<%- md.render(GeneralService.cleanMD(folder?.config?.docs||'Folder documentation missing'))%>
+	</div>
 	<table class="ui very basic table">
 		<thead>
 			<tr>

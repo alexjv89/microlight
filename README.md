@@ -104,7 +104,7 @@ ML_DB_DATABASE="microlight"
 
 
 APP_NAME="microlight"
-APP_URL="http://microlight.cashflowy.io"
+APP_URL="http://localhost:1337"
 
 # sailsjs basic settings
 NODE_ENV="development"
@@ -114,7 +114,7 @@ PASSWORD_RESET_SECRET="asdfasdfasdfasfdasgf"
 
 # connect to mailgun
 # MAILGUN_FROM_EMAIL="alex@microlight.echoalex.com"
-MAILGUN_APIKEY=""
+MAILGUN_APIKEY="asdfasdf"
 MAILGUN_DOMAIN="mail.cashflowy.io"
 MAILGUN_INCOMING_DOMAIN="mail.cashflowy.io"
 ```

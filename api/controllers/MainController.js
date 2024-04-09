@@ -10,6 +10,8 @@ const moment = require('moment-timezone');
 const fs = require('fs');
 const AWS = require('aws-sdk');
 
+var markdownit = require('markdown-it');
+
 var Bull = require( 'bull' );
 var queue = new Bull('queue',{redis:sails.config.bull.redis});
 
@@ -38,6 +40,7 @@ module.exports = {
 			if(err)
 				throw err;
 			var locals={
+				md:markdownit(),
 				runs:results.getRuns,
 				moment:moment,
 			}
@@ -53,6 +56,7 @@ module.exports = {
 			if(err)
 				throw err;
 			var locals={
+				md:markdownit(),
 				run:results.getRun
 			}
 			res.view('view_run',locals);
@@ -63,6 +67,7 @@ module.exports = {
 		var tree = sails.config.library;
 
 		var locals={
+			md:markdownit(),
 			title:'Library',
 			tree,
 		}

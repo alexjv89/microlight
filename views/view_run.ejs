@@ -58,6 +58,10 @@
 	        </tr>
 	    </tbody>
 	</table>
+	<h3>Docs:</h3>
+	<div class='ui basic segment'>
+		<%- md.render(GeneralService.cleanMD(task?.config?.docs||'Task documentation missing'))%>
+	</div>
 	<div class="ui divider"></div>
 
 	<h3>Logs:</h3>

@@ -38,6 +38,10 @@
 		
 		
 	</h1>
+	<h3>Docs:</h3>
+	<div class='ui segment'>
+		<%- md.render(GeneralService.cleanMD(task?.config?.docs||'Task documentation missing'))%>
+	</div>
 	<div class='ui segment'>
 		<form action="/task/<%=req.params.slug%>/execute" method="post" class='ui <%-req.query.error?"req.query.error":""%> form' enctype="multipart/form-data">
 			<div class="ui error message">
