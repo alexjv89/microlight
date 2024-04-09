@@ -42,26 +42,35 @@
 		</a>
 		
 	</h1>
-	<table class="ui celled unstackable collapsing compact table">
-	    <tbody>
-	    	<tr>
-	    	    <td class='center aligned'><b>Run started at</b></td>
-	    	    <td class='center aligned'><b>By User</b></td>
-	    	    <td class='center aligned'><b>Status</b></td>
-	    	    <td class='center aligned'><b>Duration</b></td>
-	    	</tr>
-	        <tr>
-	            <td class=''><%=run?.createdAt?.toISOString().substring(0,10)%><br><%=run?.createdAt?.toISOString().substring(11,19)%></td>
-	            <td class='center aligned'><%=run?.user?.name%></td>
-	            <td class="<%=run.status=='succeeded'?'positive':(run.status=='failed'?'negative':'warning')%>"><%=run.status%></td>
-	            <td class='right aligned'><%=run?.duration%>s</td>
-	        </tr>
-	    </tbody>
-	</table>
-	<h3>Docs:</h3>
-	<div class='ui basic segment'>
-		<%- md.render(GeneralService.cleanMD(task?.config?.docs||'Task documentation missing'))%>
+	<div class='ui stackable grid'>
+		<div class="eight wide column">
+			<table class="ui celled unstackable collapsing compact table">
+			    <tbody>
+			    	<tr>
+			    	    <td class='center aligned'><b>Run started at</b></td>
+			    	    <td class='center aligned'><b>By User</b></td>
+			    	    <td class='center aligned'><b>Status</b></td>
+			    	    <td class='center aligned'><b>Duration</b></td>
+			    	</tr>
+			        <tr>
+			            <td class=''><%=run?.createdAt?.toISOString().substring(0,10)%><br><%=run?.createdAt?.toISOString().substring(11,19)%></td>
+			            <td class='center aligned'><%=run?.user?.name%></td>
+			            <td class="<%=run.status=='succeeded'?'positive':(run.status=='failed'?'negative':'warning')%>"><%=run.status%></td>
+			            <td class='right aligned'><%=run?.duration%>s</td>
+			        </tr>
+			    </tbody>
+			</table>
+		</div>
+		<div class="eight wide column">
+			<h3>Docs:</h3>
+			<div class='ui segment'>
+				<%- md.render(GeneralService.cleanMD(task?.config?.docs||'Task documentation missing'))%>
+			</div>
+		</div>
+		
 	</div>
+	
+	
 	<div class="ui divider"></div>
 
 	<h3>Logs:</h3>
