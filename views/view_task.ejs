@@ -10,6 +10,15 @@
 	var folder_path=task.path.replace(sails.config.microlight.task_folder+'/','').replace('/'+task.file,'').split('/');
 
 %>
+<style>
+	code {
+		font-family: Consolas,"courier new";
+		color: crimson;
+		background-color: #f1f1f1;
+		padding: 2px;
+/*		font-size: 105%;*/
+	}
+</style>
 <div class='ui basic segment container'>
 	<div class="ui breadcrumb">
 		<a class="section" href='/library'>Library</a>
@@ -89,6 +98,7 @@
 	        <tr>
 	            <th>Date</th>
 	            <th>ID</th>
+				<th>Inputs</th>
 	            <th>Status</th>
 	            <th>Duration</th>
 	            <th>By</th>
@@ -100,6 +110,14 @@
 	        <tr>
 	            <td><%=moment(run.createdAt).format('MMM Do YY h:mm a')%></td>
 	            <td><a href='/task/<%=run.task%>/run/<%=run.id%>'><%=run.task%> #<%=run.id%></a></td>
+				<td>
+					<% Object.keys(run.parameters).forEach(function(p){ %>
+						<%
+							var value = run.parameters[p]
+						%>
+						<%=p %>: <code><%= typeof value == 'object' ? value.filename:value  %></code><br>
+					<% }) %>
+				</td>
 	            <td class="<%=run.status=='succeeded'?'positive':(run.status=='failed'?'negative':'warning')%>"><%=run.status%></td>
 	            <td class='right aligned'><%=run?.duration?.toFixed(1)%>s</td>
 	            <td><%=run.by%></td>

@@ -168,7 +168,8 @@ module.exports = {
 					logs:_.cloneDeep(results.startRun.logs),
 					activities:[],
 					duration:(end_time-start_time)/1000,
-					output:output
+					output:output,
+					parameters:inputs
 				}
 				// update the task
 				await Run.updateOne({id:results.startRun.id},update);

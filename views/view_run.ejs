@@ -10,6 +10,15 @@
 	var folder_path=task.path.replace(sails.config.microlight.task_folder+'/','').replace('/'+task.file,'').split('/');
 
 %>
+<style>
+	code {
+		font-family: Consolas,"courier new";
+		color: crimson;
+		background-color: #f1f1f1;
+		padding: 2px;
+/*		font-size: 105%;*/
+	}
+</style>
 <div class='ui basic segment container'>
 
 	<div class="ui breadcrumb">
@@ -72,6 +81,19 @@
 	
 	
 	<div class="ui divider"></div>
+	<% 
+	var parameters = Object.keys(run.parameters);
+	if(parameters.length) {%>
+	<h3>Inputs:</h3>
+	<div class='ui segment'>
+		<% parameters.forEach(function(p){ %>
+			<%
+				var value = run.parameters[p]
+			%>
+			<%=p %>: <code><%= typeof value == 'object' ? value.filename:value  %></code><br>
+		<% }) %>
+	</div>
+	<%}%>
 
 	<h3>Logs:</h3>
 	<!-- <%run.logs.forEach(function(log){%>
