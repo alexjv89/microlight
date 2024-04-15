@@ -102,7 +102,12 @@ var scheduleTasks = function(){
 									},
 								}
 								var start_time=new Date();
-								var inputs = {};
+								var inputs = _.keys(task.config?.inputs).reduce((prev,curr)=>{
+									var input = task.config.inputs[curr]
+									if(_.has(input,'default'))
+										prev[curr] = input.default
+									return prev
+								},{});
 								var status = 'succeeded';
 								try{
 									var output = await task.config.fn(microlight,inputs);
@@ -116,7 +121,8 @@ var scheduleTasks = function(){
 									logs:_.cloneDeep(results.startRun.logs),
 									activities:[],
 									duration:(end_time-start_time)/1000,
-									output:output
+									output:output,
+									parameters:inputs
 								}
 								// update the task
 								await Run.updateOne({id:results.startRun.id},update);
