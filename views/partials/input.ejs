@@ -7,8 +7,13 @@
 		</div>
 	</div>
 <%}else if(input.config.type=='string'){%>
-	input string
-	<pre><%=JSON.stringify(input.config,2,2)%></pre>
+	<div class="<%=input.config.required?'required':''%> field">
+		<label><%=input.config.name%>:</label>
+		<div class="field ui left icon input">
+			<input name="<%=input.key%>" type="string" placeholder="<%=input.config.description%>" value="<%=input.config.default%>"/>
+			<i class="pen icon"></i>
+		</div>
+	</div>
 <%}else if(input.config.type=='file'){%>
 	<div class="<%=input.config.required?'required':''%> field">
 		<label><%=input.config.name%>:</label>
