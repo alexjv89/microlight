@@ -91,6 +91,7 @@ module.exports = {
 					user:req?.user?.id,
 					logs:[],
 					activities:[],
+					parameters:_.cloneDeep(req.body),
 				}).fetch();		
 			},
 			// upload files if any
