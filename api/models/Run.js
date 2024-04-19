@@ -27,7 +27,7 @@ module.exports = {
 			type:'json',
 			defaultsTo:[]
 		},
-		parameters:{
+		inputs:{
 			type:'json',
 			defaultsTo:{}
 		},

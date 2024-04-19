@@ -122,7 +122,7 @@ var scheduleTasks = function(){
 									activities:[],
 									duration:(end_time-start_time)/1000,
 									output:output,
-									parameters:inputs
+									inputs:inputs
 								}
 								// update the task
 								await Run.updateOne({id:results.startRun.id},update);
