@@ -111,9 +111,9 @@
 	            <td><%=moment(run.createdAt).format('MMM Do YY h:mm a')%></td>
 	            <td><a href='/task/<%=run.task%>/run/<%=run.id%>'><%=run.task%> #<%=run.id%></a></td>
 				<td>
-					<% Object.keys(run.parameters).forEach(function(p){ %>
+					<% Object.keys(run.inputs).forEach(function(p){ %>
 						<%
-							var value = run.parameters[p]
+							var value = run.inputs[p]
 						%>
 						<%=p %>: <code><%= typeof value == 'object' ? value.filename:value  %></code><br>
 					<% }) %>

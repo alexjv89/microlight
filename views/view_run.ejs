@@ -82,13 +82,13 @@
 	
 	<div class="ui divider"></div>
 	<% 
-	var parameters = Object.keys(run.parameters);
-	if(parameters.length) {%>
+	var inputs = Object.keys(run.inputs);
+	if(inputs.length) {%>
 	<h3>Inputs:</h3>
 	<div class='ui segment'>
-		<% parameters.forEach(function(p){ %>
+		<% inputs.forEach(function(i){ %>
 			<%
-				var value = run.parameters[p]
+				var value = run.inputs[i]
 			%>
 			<%=p %>: <code><%= typeof value == 'object' ? value.filename:value  %></code><br>
 		<% }) %>
