@@ -23,23 +23,41 @@ module.exports ={
 
 # Task keys
 
-| key         | about                                                                                                                                                                    | required? | default |
-|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|---------|
-| slug        | unique key that is used to refer to the task. It should unique across all tasks in all folders                                                                           | yes       |         |
-| name        | Human readable name for the task                                                                                                                                         |           |         |
-| description | Quick description of the task. This will be shown inline with the name of the task                                                                                       |           |         |
-| docs        | Write detailed documentation of this task. This will shown on the right side bar in the UI.                                                                              |           |         |
-| inputs      | json object defines configs for inputs that are accepted by this task. The configs also define how the input is displayed in the UI and the validations that will be run |           | {}      |
-| schedule    | Json object to specify crontime and timezone to run the task on schedule                                                                                                 | no        | {}      |
-| fn          | function that is executed when the task is triggered. This takes 2 arguments. ml & inputs                                                                                | yes       |         |
-
-
+| key | about | required? | default |
+|---|---|---|---|
+| slug | unique key that is used to refer to the task. It should unique across all tasks in all folders | yes |  |
+| name | Human readable name for the task | yes |  |
+| description | Quick description of the task. This will be shown inline with the name of the task | no |  |
+| docs | Write detailed documentation of this task. This will shown on the right side bar in the UI. | no |  |
+| inputs | json object defines configs for inputs that are accepted by this task. The configs also define how the input is displayed in the UI and the validations that will be run | no | {} |
+| schedule | Json object to specify crontime and timezone to run the task on schedule | no | {} |
+| fn | function that is executed when the task is triggered. This takes 2 arguments. ml & inputs | yes |  |
 
 
 ## Inputs
+Typical inputs looks like the following. The keys for `inputs` become the slug for the input. 
+```
+inputs:{
+    database:{
+        name:'Database',
+        description:'Database to take dump of',
+        type:'string',
+        required:true
+    },
+    ... 
+}
+```
 
-The following inputs are supported
+| key         | about                                                                      | required? | default |
+|-------------|----------------------------------------------------------------------------|-----------|---------|
+| name        | Human readable name for the variable                                       | yes       |         |
+| description | Help decriber for the variable. Help GUI users understand the input better | no        |         |
+| type        | Type of variable. Can be `number`,`string`,`file`                          | yes       |         |
+| required    | Is this variable required? Force the GUI user to enter this variable.      | no        | false   |
+
+
+The following input types are supported:
 - `number` - any number input from user
 - `string` - any string input from user
-- `dropdown` - Users can choose from a list
 - `file` - user can upload a file
+- `dropdown` - Users can choose from a list (coming soon)
