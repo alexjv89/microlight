@@ -186,4 +186,8 @@ module.exports = {
 
 ```
 
+## Change log
+
+The changelog can be found at [/changelog.md](/changelog.md)
+
 
