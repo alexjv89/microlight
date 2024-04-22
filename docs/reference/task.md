@@ -79,7 +79,6 @@ schedule:{
 ## fn - the task function
 this is the function that will be executed.
 
-this function gets 2 arguments - ml & inputs
-- `ml` - this is the special microlight class object that allows you to trigger microlight functions in the task code block. Mostly used for formating content and print it to the GUI. 
+this function gets 2 arguments - `ml` & `inputs`
+- `ml` - this is the special microlight class object that allows you to trigger microlight functions in the task code block. Mostly used for formating content and print it to the GUI. [Learn more](/docs/reference/ml.md)
 - `inputs` - all the inputs specified by the GUI user will be accessible in the code via this variable. 
-- 
