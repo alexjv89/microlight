@@ -36,7 +36,7 @@ module.exports ={
 
 ## Inputs
 Typical inputs looks like the following. The keys for `inputs` become the slug for the input. 
-```
+```js
 inputs:{
     database:{
         name:'Database',
@@ -61,3 +61,25 @@ The following input types are supported:
 - `string` - any string input from user
 - `file` - user can upload a file
 - `dropdown` - Users can choose from a list (coming soon)
+
+## Schedule
+Typical schedule looks like the folowing:
+```js
+schedule:{
+    crontime:'30 6,12 * * *',
+    timezone:'Asia/Kolkata',
+},
+```
+
+| key      | about                                                    | required? | default |
+|----------|----------------------------------------------------------|-----------|---------|
+| crontime | The time at which to schedule task in crontime format    | yes       |         |
+| timezone | Specify the timezone in which to process the crontime in | no        | utc     |
+
+## fn - the task function
+this is the function that will be executed.
+
+this function gets 2 arguments - ml & inputs
+- `ml` - this is the special microlight class object that allows you to trigger microlight functions in the task code block. Mostly used for formating content and print it to the GUI. 
+- `inputs` - all the inputs specified by the GUI user will be accessible in the code via this variable. 
+- 
