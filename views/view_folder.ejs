@@ -66,28 +66,33 @@
 					</tr>
 				</thead>
 				<tbody>
+					<!-- first show all the folders -->
 					<%folder.tree.forEach(function(item){%>
-					<%if(item.type=='folder'){%>
-					<tr>
-						<td>
-							<a href="/library/<%=item.path.replace(sails.config.microlight.task_folder+'/','')%>"> <i class="grey folder outline icon"></i> <%=item.config.name||item.file%></a>
-						</td>
-						<td><%=item?.config?.description%></td>
-						<td><%=item.tasks%></td>
-						<!-- <td><%=item.path%></td> -->
-						
-					</tr>
-					<%}else if(item.type=='task'){%>
-					<tr>
-						<td>
-							<a href='/task/<%=item.config.slug%>'><i class="violet paper plane icon"></i> <%=item.config.name||item.file%></a>
-						</td>
-						<td><%=item?.config?.description%></td>
-						<td><%=item.tasks%></td>
-						<!-- <td><%=item.path%></td> -->
-						
-					</tr>
-					<%}%>
+						<%if(item.type=='folder'){%>
+							<tr>
+								<td>
+									<a href="/library/<%=item.path.replace(sails.config.microlight.task_folder+'/','')%>"> <i class="grey folder outline icon"></i> <%=item.config.name||item.file%></a>
+								</td>
+								<td><%=item?.config?.description%></td>
+								<td><%=item.tasks%></td>
+								<!-- <td><%=item.path%></td> -->
+								
+							</tr>
+						<%}%>
+					<%})%>
+					<!-- Then show all the tasks -->
+					<%folder.tree.forEach(function(item){%>
+						<%if(item.type=='task'){%>
+							<tr>
+								<td>
+									<a href='/task/<%=item.config.slug%>'><i class="violet paper plane icon"></i> <%=item.config.name||item.file%></a>
+								</td>
+								<td><%=item?.config?.description%></td>
+								<td><%=item.tasks%></td>
+								<!-- <td><%=item.path%></td> -->
+								
+							</tr>
+						<%}%>
 					<%})%>
 				</tbody>
 			</table>
