@@ -27,6 +27,12 @@ function getFiles(dir, tree=[]) {
 				tree.push(leaf);
 				leaf.tree=getFiles(`${dir}/${file}`, leaf.tree) // If it is a directory, recursively call the getFiles function with the directory path and the files array
 			} 
+			// the folder config file can be .folder.js as well // .folder.js makes sure it becomes the first file in the folder
+			if (fs.existsSync(project_folder+'/'+leaf.path+'/.folder.js')){
+				leaf.config=require(project_folder+'/'+leaf.path+'/.folder.js'); 
+				tree.push(leaf);
+				leaf.tree=getFiles(`${dir}/${file}`, leaf.tree) // If it is a directory, recursively call the getFiles function with the directory path and the files array
+			} 
 			// tree.push(leaf);
 		} else {
 			if(file.indexOf('.task.js')>-1){
