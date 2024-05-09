@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.9.1
+Date: 2024-05-09
+
+- Bug fixed on view run page
+
 ## 1.9.0
 Date: 2024-04-22
 

@@ -90,7 +90,7 @@
 			<%
 				var value = run.inputs[i]
 			%>
-			<%=p %>: <code><%= typeof value == 'object' ? value.filename:value  %></code><br>
+			<%=i %>: <code><%= typeof value == 'object' ? value.filename:value  %></code><br>
 		<% }) %>
 	</div>
 	<%}%>
