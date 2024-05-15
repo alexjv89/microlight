@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.9.2
+Date: 2024-05-15
+
+- Removed unused package 'mralbert_helper'
+
 ## 1.9.1
 Date: 2024-05-09
 
