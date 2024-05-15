@@ -37,7 +37,6 @@
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
     "money": "^0.2.0",
-    "mralbert_helper": "git+https://x-oauth-basic:Vzca_jXJ-M3szWEyiR1K@gitlab.com/asyncauto/mralbert_helper.git",
     "parley": "^4.0.0-1",
     "passport": "^0.5.0",
     "passport-google-oauth2": "^0.2.0",
