@@ -32,9 +32,15 @@ module.exports = {
 	},
 	
 	viewTask:function(req,res){
+		var limit = 100
+		var page = req.query.page > 0?(req.query.page)*1:1;
+		var skip = limit * (page-1);
+
 		async.auto({
 			getRuns:async function(){
-				return await Run.find({task:req.params.slug}).populate('user',{select:['id','name']}).sort('createdAt DESC');
+				return await Run.find({task:req.params.slug}).populate('user',{select:['id','name']}).sort('createdAt DESC').limit(limit).skip(skip);
+			},countRuns:async function(){
+				return await Run.count({task:req.params.slug})
 			}
 		},function(err,results){
 			if(err)
@@ -43,6 +49,8 @@ module.exports = {
 				md:markdownit(),
 				runs:results.getRuns,
 				moment:moment,
+				page:page,
+				totalPages: Math.ceil(results.countRuns/limit)
 			}
 			res.view('view_task',locals);
 		})

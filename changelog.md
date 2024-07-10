@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.9.3
+Date: 2024-07-10
+
+- Implemented pagination on the view task page
+
 ## 1.9.2
 Date: 2024-05-15
 
